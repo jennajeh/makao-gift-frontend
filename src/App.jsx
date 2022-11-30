@@ -4,8 +4,13 @@ import { Reset } from 'styled-reset';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import OrderDetailPage from './pages/OrderDetailPage';
+import OrderListPage from './pages/OrderListPage';
+import OrderPage from './pages/OrderPage';
+import ProductDetail from './pages/ProductDetail';
 import ProductsPage from './pages/ProductsPage';
 import SignupPage from './pages/SignupPage';
+import WelcomePage from './pages/WelcomePage';
 import defaultTheme from './styles/defaultTheme';
 import GlobalStyle from './styles/GlobalStyle';
 
@@ -21,11 +26,11 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/products" element={<ProductsPage />} />
-          {/* <Route path="/products/:id" element={<ProductDetail />} /> */}
-          {/* <Route path="/order" element={<OrderPage />} /> */}
-          {/* <Route path="/orders" element={<OrderListPage />} /> */}
-          {/* <Route path="/orders/:id" element={<OrderListDetailPage />} /> */}
-          {/* <Route path="/welcome" element={<WelcomePage />} /> */}
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/order" element={<OrderPage />} />
+          <Route path="/orders" element={<OrderListPage />} />
+          <Route path="/orders/:id" element={<OrderDetailPage />} />
+          <Route path="/welcome" element={<WelcomePage />} />
         </Routes>
       </Main>
     </ThemeProvider>
