@@ -4,7 +4,7 @@ import { Reset } from 'styled-reset';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import OrderDetailPage from './pages/OrderDetailPage';
+import OrderDetailPage from './pages/OrderHistoryPage';
 import OrderListPage from './pages/OrderListPage';
 import OrderPage from './pages/OrderPage';
 import ProductDetail from './pages/ProductDetail';
