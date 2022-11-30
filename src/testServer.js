@@ -17,6 +17,8 @@ const server = setupServer(
           maker: '테스트 1 메이커',
           description: '테스트용 게시물 1 입니다.',
           imageUrl: 'imageUrl',
+          createdAt: '2022-01-01T16:10:45.8306309',
+          updatedAt: '2022-01-02T16:10:45.8306309',
         },
         {
           id: 2,
@@ -25,6 +27,8 @@ const server = setupServer(
           maker: '테스트 2 메이커',
           description: '테스트용 게시물 2 입니다.',
           imageUrl: 'imageUrl',
+          createdAt: '2022-02-01T16:10:45.8306309',
+          updatedAt: '2022-02-02T16:10:45.8306309',
         },
       ],
     }),
