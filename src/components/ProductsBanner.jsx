@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export default function ProductsBanner() {
   return (
-
     <Container>
       <Wrapper>
         <p>평범한 선물은 주기도 민망하다구요?</p>
