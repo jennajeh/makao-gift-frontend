@@ -1,9 +1,40 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components';
+import numberFormat from '../utils/numberFormat';
 
-export default function ProductsList() {
+export default function ProductsList({ handleClickProduct, products }) {
   return (
     <Container>
       <Title>인기선물을 한 자리에 모았어요</Title>
+      {products.length ? (
+        <Wrapper>
+          <List>
+            {products.slice(0, 8).map((product) => (
+              <li key={product.id}>
+                <Product
+                  type="button"
+                  className={product.name}
+                  onClick={() => handleClickProduct(product.id)}
+                >
+                  <Image>
+                    <img src={product.imageUrl} alt={product.name} />
+                  </Image>
+                  <Text>
+                    <p>{product.maker}</p>
+                    <p className="name">{product.name}</p>
+                    <p>
+                      <strong>{numberFormat(product.price)}</strong>
+                      원
+                    </p>
+                  </Text>
+                </Product>
+              </li>
+            ))}
+          </List>
+        </Wrapper>
+      ) : (
+        <h3>상품이 존재하지 않습니다.</h3>
+      )}
     </Container>
   );
 }
@@ -31,7 +62,7 @@ const Product = styled.button`
   border: none;
 `;
 
-const Lists = styled.ul`
+const List = styled.ul`
   /* width: 70%; */
   display: flex;
   justify-content: flex-start;
@@ -40,7 +71,7 @@ const Lists = styled.ul`
   flex-wrap: wrap;
 `;
 
-const ImageBox = styled.div`
+const Image = styled.div`
   position: relative;
   width: 250px;
   height: 250px;
@@ -51,28 +82,31 @@ const ImageBox = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 8px;
   }
 `;
 
-const TextBox = styled.div`
+const Text = styled.div`
   width: 250px;
   height: 100px;
-  /* height: 200px; */
   margin-top: 1em;
+
   p {
     margin-bottom: .3em;
     word-break: keep-all;
   }
+
   p:first-child {
     color: #999999;
   }
+
   p.name {
     width: 250px;
     height: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  
   strong {
     font-size: 1.1em;
     font-weight: bold;

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export default function ProductsBanner() {
   return (
-
     <Container>
       <Wrapper>
         <p>평범한 선물은 주기도 민망하다구요?</p>
@@ -37,14 +36,17 @@ const Wrapper = styled.div`
     font-weight: bold;
     margin-bottom: 2em;
   }
+
   h2 {
     font-size: 1.5em;
     font-weight: bold;
   }
+
   strong {
     display: block;
     margin-bottom: .3em;
   }
+  
   p:last-child {
     margin-top: 2em;
   }
