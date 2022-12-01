@@ -7,7 +7,7 @@ import LoginPage from './pages/LoginPage';
 import OrderDetailPage from './pages/OrderHistoryPage';
 import OrderListPage from './pages/OrderListPage';
 import OrderPage from './pages/OrderPage';
-import ProductDetail from './pages/ProductDetail';
+import ProductDetailPage from './pages/ProductDetailPage';
 import ProductsPage from './pages/ProductsPage';
 import SignupPage from './pages/SignupPage';
 import WelcomePage from './pages/WelcomePage';
@@ -26,7 +26,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/products" element={<ProductsPage />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/order" element={<OrderPage />} />
           <Route path="/orders" element={<OrderListPage />} />
           <Route path="/orders/:id" element={<OrderDetailPage />} />
