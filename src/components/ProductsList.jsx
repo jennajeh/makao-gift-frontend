@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import styled from 'styled-components';
 import numberFormat from '../utils/numberFormat';
 
@@ -10,24 +9,24 @@ export default function ProductsList({ handleClickProduct, products }) {
       {products.length ? (
         <Wrapper>
           <List>
-            {products.map((product) => (
+            {products.slice(0, 8).map((product) => (
               <li key={product.id}>
                 <Product
                   type="button"
-                  className="{product.name}"
+                  className={product.name}
                   onClick={() => handleClickProduct(product.id)}
                 >
-                  <ImageBox>
+                  <Image>
                     <img src={product.imageUrl} alt={product.name} />
-                  </ImageBox>
-                  <TextBox>
+                  </Image>
+                  <Text>
                     <p>{product.maker}</p>
                     <p className="name">{product.name}</p>
                     <p>
                       <strong>{numberFormat(product.price)}</strong>
                       원
                     </p>
-                  </TextBox>
+                  </Text>
                 </Product>
               </li>
             ))}
@@ -72,7 +71,7 @@ const List = styled.ul`
   flex-wrap: wrap;
 `;
 
-const ImageBox = styled.div`
+const Image = styled.div`
   position: relative;
   width: 250px;
   height: 250px;
@@ -83,28 +82,31 @@ const ImageBox = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 8px;
   }
 `;
 
-const TextBox = styled.div`
+const Text = styled.div`
   width: 250px;
   height: 100px;
-  /* height: 200px; */
   margin-top: 1em;
+
   p {
     margin-bottom: .3em;
     word-break: keep-all;
   }
+
   p:first-child {
     color: #999999;
   }
+
   p.name {
     width: 250px;
     height: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  
   strong {
     font-size: 1.1em;
     font-weight: bold;

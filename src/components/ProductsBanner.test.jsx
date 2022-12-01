@@ -1,5 +1,6 @@
-const { render, screen } = require('@testing-library/react');
-const { default: ProductsBanner } = require('./ProductsBanner');
+import { render, screen } from '@testing-library/react';
+
+import ProductsBanner from './ProductsBanner';
 
 test('ProductsBanner', () => {
   render(<ProductsBanner />);
