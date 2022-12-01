@@ -26,7 +26,6 @@ export default class ApiService {
 
     const { data } = await axios.get(url);
     const { products } = data;
-
     return products;
   }
 

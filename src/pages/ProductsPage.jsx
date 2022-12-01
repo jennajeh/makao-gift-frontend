@@ -13,7 +13,7 @@ export default function ProductsPage() {
     productStore.fetchProducts();
   }, []);
 
-  const handleProductClick = (id) => {
+  const handleClickProduct = (id) => {
     navigate(`/products/${id}`, { state: { id } });
   };
 
@@ -21,8 +21,8 @@ export default function ProductsPage() {
     <div>
       <ProductsBanner />
       <ProductsList
+        handleClickProduct={handleClickProduct}
         products={products}
-        handleProductClick={handleProductClick}
       />
     </div>
   );

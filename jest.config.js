@@ -19,5 +19,7 @@ module.exports = {
     }],
   },
 
-  // 이미지 깨질 때 넣기
+  moduleNameMapper: {
+    '.+\\.(css|style|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'identity-obj-proxy',
+  },
 };

@@ -1,9 +1,41 @@
-import styled from 'styled-components';
+/* eslint-disable react/prop-types */
 
-export default function ProductsList() {
+import styled from 'styled-components';
+import numberFormat from '../utils/numberFormat';
+
+export default function ProductsList({ handleClickProduct, products }) {
   return (
     <Container>
       <Title>인기선물을 한 자리에 모았어요</Title>
+      {products.length ? (
+        <Wrapper>
+          <List>
+            {products.map((product) => (
+              <li key={product.id}>
+                <Product
+                  type="button"
+                  className="{product.name}"
+                  onClick={() => handleClickProduct(product.id)}
+                >
+                  <ImageBox>
+                    <img src={product.imageUrl} alt={product.name} />
+                  </ImageBox>
+                  <TextBox>
+                    <p>{product.maker}</p>
+                    <p className="name">{product.name}</p>
+                    <p>
+                      <strong>{numberFormat(product.price)}</strong>
+                      원
+                    </p>
+                  </TextBox>
+                </Product>
+              </li>
+            ))}
+          </List>
+        </Wrapper>
+      ) : (
+        <h3>상품이 존재하지 않습니다.</h3>
+      )}
     </Container>
   );
 }
@@ -31,7 +63,7 @@ const Product = styled.button`
   border: none;
 `;
 
-const Lists = styled.ul`
+const List = styled.ul`
   /* width: 70%; */
   display: flex;
   justify-content: flex-start;

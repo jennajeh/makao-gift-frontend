@@ -1,8 +1,13 @@
 import styled from 'styled-components';
+import { backgroundImages } from '../assets';
 
 export default function ProductsBanner() {
+  // const [accessToken] = useLocalStorage('accessToken', '');
+
+  const accessToken = '';
+
   return (
-    <Container>
+    <Container backgroundImages={backgroundImages}>
       <Wrapper>
         <p>평범한 선물은 주기도 민망하다구요?</p>
         <h2>
@@ -16,6 +21,9 @@ export default function ProductsBanner() {
 }
 
 const Container = styled.div`
+  background-image: ${(props) => (props.isLogin
+    ? `url(${backgroundImages.images.Login})`
+    : `url(${backgroundImages.images.NotLogin})`)};
   background-size: cover;
   display: flex;
   align-items: center;
