@@ -44,8 +44,9 @@ const Image = styled.div`
   position: relative;
   width: 250px;
   height: 250px;
-  
+
   img {
+    width: 100%;
     height: 100%;
     border-radius: 8px;
   }

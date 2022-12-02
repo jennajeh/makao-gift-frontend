@@ -1,4 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  render, screen, waitFor,
+} from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 import ProductsList from './ProductsList';
 
@@ -8,9 +11,9 @@ const context = describe;
 describe('ProductList', () => {
   function renderProductList() {
     render(
-      <ProductsList
-        products={products}
-      />,
+      <MemoryRouter>
+        <ProductsList products={products} />
+      </MemoryRouter>,
     );
   }
 
@@ -19,10 +22,12 @@ describe('ProductList', () => {
       products = [];
     });
 
-    it('상품이 존재하지 않습니다 메세지 반환', () => {
+    it('상품이 존재하지 않습니다 메세지 반환', async () => {
       renderProductList();
 
-      screen.getByText('상품이 존재하지 않습니다.');
+      await waitFor(() => {
+        screen.getByText('상품이 존재하지 않습니다.');
+      });
     });
   });
 
@@ -48,19 +53,14 @@ describe('ProductList', () => {
       ];
     });
 
-    it('상품 목록 반환', () => {
+    it('상품 목록 반환', async () => {
       renderProductList();
 
-      screen.getByText('인기선물을 한 자리에 모았어요');
-      screen.getByText('로엔 LED모션베드 SS(천연라텍스폼)');
-      screen.getByText('라클라우드 이지 모션베드 Q(20cm천연라텍스)');
+      await waitFor(() => {
+        screen.getByText('인기선물을 한 자리에 모았어요');
+        screen.getByText('로엔 LED모션베드 SS(천연라텍스폼)');
+        screen.getByText('라클라우드 이지 모션베드 Q(20cm천연라텍스)');
+      });
     });
-
-    // it('상품 클릭시 상품 상세 페이지로 이동', () => {
-    //   renderProductList();
-
-    //   fireEvent.click(screen.getByText('로엔 LED모션베드 SS(천연라텍스폼)'));
-    //   expect(handleClickProduct).toBeCalled();
-    // });
   });
 });
