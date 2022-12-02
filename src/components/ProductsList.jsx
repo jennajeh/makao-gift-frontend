@@ -18,7 +18,7 @@ export default function ProductsList({ products }) {
           </List>
         </>
       ) : (
-        <h3>상품이 존재하지 않습니다.</h3>
+        <Title>상품이 존재하지 않습니다.</Title>
       )}
     </Container>
   );
@@ -36,7 +36,6 @@ const Title = styled.h3`
 `;
 
 const List = styled.ul`
-  /* width: 70%; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
