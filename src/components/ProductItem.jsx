@@ -12,7 +12,7 @@ export default function ProductItem({ product }) {
   return (
     <Container>
       <Wrapper>
-        <Link to={`products/${id}`}>
+        <Link to={`/products/${id}`}>
           <Image>
             <img src={imageUrl} alt={name} />
           </Image>

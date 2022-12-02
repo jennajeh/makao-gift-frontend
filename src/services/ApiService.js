@@ -14,9 +14,9 @@ export default class ApiService {
     this.accessToken = accessToken;
   }
 
-  async postSession({ userId, password }) {
+  async postSession({ username, password }) {
     const url = `${baseUrl}/session`;
-    const { data } = await axios.post(url, { userId, password });
+    const { data } = await axios.post(url, { username, password });
 
     return data;
   }

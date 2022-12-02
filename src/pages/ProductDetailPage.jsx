@@ -1,5 +1,22 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import ProductDetail from '../components/ProductDetail';
+import useProductStore from '../hooks/useProductStore';
+
 export default function ProductDetailPage() {
+  const productStore = useProductStore();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    productStore.resetProductState();
+
+    if (id) {
+      productStore.fetchProduct(id);
+    }
+  }, []);
+
   return (
-    <div>ProductDetailPage</div>
+    <ProductDetail />
   );
 }
