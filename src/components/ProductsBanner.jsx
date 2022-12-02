@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { backgroundImages } from '../assets/index';
 
 export default function ProductsBanner() {
   return (
-    <Container>
+    <Container image={backgroundImages.images.login}>
       <Wrapper>
         <p>평범한 선물은 주기도 민망하다구요?</p>
         <h2>
@@ -16,25 +17,23 @@ export default function ProductsBanner() {
 }
 
 const Container = styled.div`
-  background-size: cover;
   display: flex;
   align-items: center;
   width: 100%;
   height: 18em;
+  background: url(${({ image }) => image}) no-repeat 100% 100%; 
+  background-size: cover;
   background-color: #EEE;
 `;
 
 const Wrapper = styled.div`
   width: 100%;
   padding-inline: calc((100% - 1000px) / 2);
-  
-  p, strong, h2 {
-    color: white;
-  }
-  
+
   p:first-child {
     font-weight: bold;
     margin-bottom: 2em;
+    color: #005936
   }
 
   h2 {

@@ -18,5 +18,3 @@ export const backgroundImages = {
     notLogin: NotLogin,
   },
 };
-
-// export const xxx = '';
