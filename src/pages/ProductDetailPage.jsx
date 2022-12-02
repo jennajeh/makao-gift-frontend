@@ -11,9 +11,7 @@ export default function ProductDetailPage() {
   useEffect(() => {
     productStore.resetProductState();
 
-    if (id) {
-      productStore.fetchProduct(id);
-    }
+    productStore.fetchProduct(id);
   }, []);
 
   return (
