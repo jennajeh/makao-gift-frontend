@@ -28,7 +28,10 @@ export default function ProductDetail() {
       </ImageBox>
       <ContentBox>
         <ProductName>{product.name}</ProductName>
-        <Price>{numberFormat(product.price)}</Price>
+        <Price>
+          {numberFormat(product.price)}
+          원
+        </Price>
         <Table>
           <Label>제조사</Label>
           <Maker>{product.maker}</Maker>
@@ -36,11 +39,11 @@ export default function ProductDetail() {
         <Table>
           <Label>구매수량</Label>
           <Quantity>
-            {product.quantity === 1 ? (
+            {productStore.quantity === 1 ? (
               <DisabledMinus
                 type="button"
                 name="minus-gray"
-                disabled={product.quantity === 1}
+                disabled={productStore.quantity === 1}
               >
                 -
                 <img src={iconImages.icons.minusGray} alt="minus-gray" />
@@ -55,7 +58,7 @@ export default function ProductDetail() {
                 <img src={iconImages.icons.minusBlack} alt="minus-black" />
               </EnabledMinus>
             )}
-            <p>{product.quantity}</p>
+            <p>{productStore.quantity}</p>
             <Plus
               type="button"
               name="plus-black"
@@ -73,7 +76,7 @@ export default function ProductDetail() {
         <TotalPriceSection>
           <p>총 상품금액:</p>
           <TotalPrice>
-            {numberFormat(product.totalPrice)}
+            {numberFormat(productStore.totalPrice)}
             원
           </TotalPrice>
         </TotalPriceSection>
