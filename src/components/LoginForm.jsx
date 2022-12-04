@@ -1,24 +1,39 @@
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+
+  const [, setAccessToken] = useLocalStorage('accessToken', '');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    navigate('/');
+  };
+
   return (
     <Container>
       <Title>USER LOGIN</Title>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Field
+          type="text"
           id="input-userId"
           name="userId"
           placeholder="아이디"
         />
         <Field
+          type="password"
           id="input-password"
           name="password"
-          type="password"
           placeholder="비밀번호"
         />
         <Login type="submit">로그인하기</Login>
       </Form>
-      <Signup type="button">회원가입</Signup>
+      <Signup>
+        <Link to="/signup">회원가입</Link>
+      </Signup>
     </Container>
   );
 }
@@ -67,7 +82,8 @@ const Login = styled.button`
   margin-top: 1em;
 `;
 
-const Signup = styled.button`
+const Signup = styled.div`
+  font-size: .9em;
   margin-top: 3em;
   background: none;
   border: none;
