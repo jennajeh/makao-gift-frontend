@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLocalStorage } from 'usehooks-ts';
@@ -6,7 +7,9 @@ import useUserStore from '../hooks/useUserStore';
 import numberFormat from '../utils/numberFormat';
 import { iconImages } from '../assets/index';
 
-export default function ProductDetail() {
+export default function ProductDetail({
+  handleChangeQuantityDown,
+}) {
   const navigate = useNavigate();
 
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -23,16 +26,12 @@ export default function ProductDetail() {
       return;
     }
 
-    if (userStore.hasEnoughAmount(productStore.totalPrice)) {
+    if (userStore.hasEnoughAmount(productStore.totalPrice())) {
       navigate('/order');
     }
   };
 
-  if (!product) {
-    return (
-      <p>Loading...</p>
-    );
-  }
+  console.log(productStore.totalPrice());
 
   return (
     <Container>
@@ -65,7 +64,7 @@ export default function ProductDetail() {
               <EnabledMinus
                 type="button"
                 name="minus-black"
-                onClick={() => productStore.quantityDown}
+                onClick={handleChangeQuantityDown}
               >
                 -
                 <img src={iconImages.icons.minusBlack} alt="minus-black" />
@@ -75,7 +74,7 @@ export default function ProductDetail() {
             <Plus
               type="button"
               name="plus-black"
-              onClick={() => productStore.quantityUp}
+              onClick={() => productStore.quantityUp()}
             >
               +
               <img src={iconImages.icons.plusBlack} alt="plus-black" />
@@ -89,7 +88,7 @@ export default function ProductDetail() {
         <TotalPriceSection>
           <p>총 상품금액:</p>
           <TotalPrice>
-            {numberFormat(productStore.totalPrice)}
+            {numberFormat(productStore.totalPrice())}
             원
           </TotalPrice>
         </TotalPriceSection>
@@ -99,9 +98,11 @@ export default function ProductDetail() {
         {accessToken && !userStore.hasEnoughAmount(productStore.totalPrice())
         && (
           <p>
+            ❌
             {' '}
             잔액이 부족하여 선물하기가 불가합니다
             {' '}
+            ❌
           </p>
         )}
       </ContentBox>

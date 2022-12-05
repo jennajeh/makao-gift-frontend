@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { Reset } from 'styled-reset';
 import { useLocalStorage } from 'usehooks-ts';
 import Header from './components/Header';
-import useUserStore from './hooks/useUserStore';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import OrderDetailPage from './pages/OrderHistoryPage';

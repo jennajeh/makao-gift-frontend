@@ -8,13 +8,27 @@ export default function ProductDetailPage() {
 
   const { id } = useParams();
 
+  const { product } = productStore;
+
   useEffect(() => {
     productStore.resetProductState();
 
     productStore.fetchProduct(id);
   }, []);
 
+  const handleChangeQuantityDown = () => {
+    productStore.quantityDown();
+  };
+
+  if (!product) {
+    return (
+      <p>Loading...</p>
+    );
+  }
+
   return (
-    <ProductDetail />
+    <ProductDetail
+      handleChangeQuantityDown={handleChangeQuantityDown}
+    />
   );
 }

@@ -14,9 +14,13 @@ export default class ProductStore extends Store {
 
   resetProductState() {
     this.quantity = 1;
-    this.totalPrice = 0;
+    this.product = {};
 
     this.publish();
+  }
+
+  totalPrice() {
+    return this.product.price * this.count;
   }
 
   quantityUp() {

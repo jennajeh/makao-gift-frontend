@@ -1,11 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLocalStorage } from 'usehooks-ts';
-import { userStore } from '../stores/UserStore';
+import useUserStore from '../hooks/useUserStore';
 import numberFormat from '../utils/numberFormat';
 
 export default function Header() {
   const navigate = useNavigate();
+
+  const userStore = useUserStore();
 
   const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
 
