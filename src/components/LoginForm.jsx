@@ -1,14 +1,27 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLocalStorage } from 'usehooks-ts';
+import useUserStore from '../hooks/useUserStore';
 
-export default function LoginForm() {
+export default function LoginForm({ location }) {
   const navigate = useNavigate();
+  const userStore = useUserStore();
+  const { username, password } = userStore;
 
   const [, setAccessToken] = useLocalStorage('accessToken', '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const accessToken = await userStore.login({ username, password });
+
+    if (userStore.loginSuccessful) {
+      setAccessToken(accessToken);
+
+      if (location.state?.previousPage === 'productDetailPage') {
+        navigate(-1);
+      }
+    }
 
     navigate('/');
   };
@@ -19,15 +32,17 @@ export default function LoginForm() {
       <Form onSubmit={handleSubmit}>
         <Field
           type="text"
-          id="input-userId"
-          name="userId"
+          name="username"
           placeholder="아이디"
+          value={userStore.username}
+          onChange={(e) => userStore.changeUsername(e.target.value)}
         />
         <Field
           type="password"
-          id="input-password"
           name="password"
           placeholder="비밀번호"
+          value={userStore.password}
+          onChange={(e) => userStore.changePassword(e.target.value)}
         />
         <Login type="submit">로그인하기</Login>
       </Form>
@@ -63,7 +78,6 @@ const Field = styled.input`
     padding-block: 1em;
     padding-inline: 1em;
     margin-bottom: .7em;
-    border: ${(props) => (props.error ? '1px solid #F00' : '1px solid #EEEEEE')};
     ::placeholder {
       color: #CBCBCB;
     }
@@ -73,8 +87,6 @@ const Field = styled.input`
 `;
 
 const Login = styled.button`
-  color: ${(props) => props.theme.primaryButton.text};
-  background: ${(props) => props.theme.primaryButton.background};
   border: none;
   border-radius: 4px;
   width: 100%;

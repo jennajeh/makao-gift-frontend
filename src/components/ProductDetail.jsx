@@ -1,18 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
 import useProductStore from '../hooks/useProductStore';
+import useUserStore from '../hooks/useUserStore';
 import numberFormat from '../utils/numberFormat';
 import { iconImages } from '../assets/index';
 
 export default function ProductDetail() {
   const navigate = useNavigate();
 
+  const [accessToken] = useLocalStorage('accessToken', '');
+
   const productStore = useProductStore();
+  const userStore = useUserStore();
 
   const { product } = productStore;
 
   const handleClickOrder = () => {
-    navigate('/order');
+    if (!accessToken) {
+      navigate('/login', { state: { previousPage: 'productDetailPage' } });
+
+      return;
+    }
+
+    if (userStore.hasEnoughAmount(productStore.totalPrice)) {
+      navigate('/order');
+    }
   };
 
   if (!product) {
@@ -83,7 +96,14 @@ export default function ProductDetail() {
         <Button type="button" onClick={handleClickOrder}>
           선물하기
         </Button>
-        {/* 잔액이 모자란 경우 추가해주기 */}
+        {accessToken && !userStore.hasEnoughAmount(productStore.totalPrice())
+        && (
+          <p>
+            {' '}
+            잔액이 부족하여 선물하기가 불가합니다
+            {' '}
+          </p>
+        )}
       </ContentBox>
     </Container>
   );
@@ -229,8 +249,6 @@ const TotalPrice = styled.p`
 `;
 
 const Button = styled.button`
-  color: ${(props) => props.theme.primaryButton.text};
-  background: ${(props) => props.theme.primaryButton.background};
   border: none;
   border-radius: 4px;
   width: 100%;

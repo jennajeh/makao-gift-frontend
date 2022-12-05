@@ -14,7 +14,6 @@ describe('UserStore', () => {
       it('로그인 성공', async () => {
         await userStore.login({ username: 'Test1', password: 'Test123!' });
 
-        expect(userStore.name).toBe('전제나');
         expect(userStore.amount).toBe(50000);
       });
     });

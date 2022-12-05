@@ -47,6 +47,7 @@ export default class UserStore extends Store {
     this.username = '';
     this.password = '';
     this.amount = 0;
+    this.loginStatus = '';
 
     this.publish();
   }
@@ -55,6 +56,10 @@ export default class UserStore extends Store {
     this.loginStatus = status;
 
     this.publish();
+  }
+
+  hasEnoughAmount(amount) {
+    return this.amount >= amount;
   }
 
   get loginSuccessful() {

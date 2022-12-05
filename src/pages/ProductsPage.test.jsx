@@ -5,7 +5,7 @@ import ProductsPage from './ProductsPage';
 describe('ProductsPage', () => {
   it('상품 목록 반환', async () => {
     render(
-      <MemoryRouter initialEntries={['/products']}>
+      <MemoryRouter>
         <ProductsPage />
       </MemoryRouter>,
     );
