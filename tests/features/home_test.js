@@ -12,19 +12,19 @@ Scenario('로그인 하지 않고 홈 화면에 접속한 경우', ({ I }) => {
   I.see('로그인');
 });
 
-// Scenario('로그인 후 홈 화면에 접속한 경우', ({ I }) => {
-//   I.setupDatabase();
+Scenario('로그인 후 홈 화면에 접속한 경우', ({ I }) => {
+  I.setUpUser();
 
-//   // When
-//   I.amOnPage('/');
+  // When
+  I.amOnPage('/');
 
-//   I.click('로그인');
+  I.click('로그인');
 
-//   // then
-//   I.fillField('아이디', 'hello');
-//   I.fillField('비밀번호', 'Testing1!');
-//   I.click('[type=submit]');
+  // then
+  I.fillField('아이디', 'Test1');
+  I.fillField('비밀번호', 'Test123!');
+  I.click('[type=submit]');
 
-//   I.see('내 잔액: 50,000원');
-//   I.see('로그아웃');
-// });
+  I.see('내 잔액: 50,000원');
+  I.see('로그아웃');
+});

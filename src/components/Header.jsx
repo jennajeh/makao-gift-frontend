@@ -1,14 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
+import { userStore } from '../stores/UserStore';
+import numberFormat from '../utils/numberFormat';
 
 export default function Header() {
   const navigate = useNavigate();
-  // const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
 
-  let accessToken = '';
+  const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
 
   const handleLogout = () => {
-    accessToken = '';
+    setAccessToken('');
     navigate('/');
   };
 
@@ -43,7 +45,8 @@ export default function Header() {
               <li>
                 내 잔액:
                 {' '}
-                50,000원
+                {numberFormat(userStore.amount)}
+                원
               </li>
               <li>
                 <LogoutButton type="button" onClick={handleLogout}>로그아웃</LogoutButton>
