@@ -9,22 +9,36 @@ export default class UserStore extends Store {
     this.username = '';
     this.password = '';
     this.amount = 0;
+
     this.loginStatus = '';
+
+    this.errorMessage = '';
+    this.errorStatus = '';
   }
 
   async login({ username, password }) {
+    this.errorMessage = '';
     this.changeLoginStatus('processing');
+    this.publish();
 
     try {
-      const { accessToken, amount } = await apiService.postSession({ username, password });
+      const { accessToken, name, amount } = await apiService.postSession({ username, password });
 
+      this.accessToken = accessToken;
       this.amount = amount;
+      this.name = name;
 
       this.changeLoginStatus('successful');
+      this.publish();
 
       return accessToken;
-    } catch {
+    } catch (e) {
+      const message = e.response.data;
+      this.changeLoginErrorStatus({ errorMessage: message });
+
       this.changeLoginStatus('failed');
+
+      this.publish();
 
       return '';
     }
@@ -61,6 +75,13 @@ export default class UserStore extends Store {
 
   changeLoginStatus(status) {
     this.loginStatus = status;
+
+    this.publish();
+  }
+
+  changeLoginErrorStatus({ errorMessage = '' } = {}) {
+    this.errorMessage = errorMessage;
+    this.errorStatus = 'loginError';
 
     this.publish();
   }

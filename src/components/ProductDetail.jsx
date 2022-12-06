@@ -30,6 +30,12 @@ export default function ProductDetail() {
     }
   };
 
+  if (!product) {
+    return (
+      <p>Loading...</p>
+    );
+  }
+
   return (
     <Container>
       <ImageBox>

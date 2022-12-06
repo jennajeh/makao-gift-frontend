@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -42,15 +43,32 @@ export default function LoginForm({ location }) {
             type="text"
             name="username"
             placeholder="아이디"
-            {...register('username')}
+            {...register('username', {
+              required: {
+                value: true,
+                message: '아이디를 입력해 주세요',
+              },
+            })}
           />
           <Input
             id="input-password"
             type="password"
             name="password"
             placeholder="비밀번호"
-            {...register('password')}
+            {...register('password', {
+              required: {
+                value: true,
+                message: '비밀번호를 입력해 주세요',
+              },
+            })}
           />
+          {userStore.errorStatus === 'loginError'
+          && !errors.username
+          && !errors.password
+            ? <Error>아이디 혹은 비밀번호가 맞지 않습니다</Error>
+            : null}
+          {errors.username && <Error>아이디를 입력해 주세요</Error>}
+          {!errors.username && errors.password && <Error>비밀번호를 입력해 주세요</Error>}
         </Inputs>
         <Button type="submit">로그인하기</Button>
         <Link to="/signup">회원가입</Link>
@@ -81,4 +99,11 @@ const Title = styled.h2`
 
 const Inputs = styled.div`
   margin-block: 60px;
+`;
+
+const Error = styled.p`
+  font-size: .9em;
+  color: #ff0000;
+  margin: 1em 0;
+  height: 1em;
 `;

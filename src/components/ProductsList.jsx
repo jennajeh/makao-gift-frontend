@@ -8,37 +8,42 @@ export default function ProductsList({ products }) {
       {products.length ? (
         <>
           <Title>인기선물을 한 자리에 모았어요</Title>
-          <List>
+          <Items>
             {products.slice(0, 8).map((product) => (
               <ProductItem
                 key={product.id}
                 product={product}
               />
             ))}
-          </List>
+          </Items>
         </>
       ) : (
-        <Title>상품이 존재하지 않습니다.</Title>
+        <NoContent>상품이 존재하지 않습니다</NoContent>
       )}
     </Container>
   );
 }
 
-const Container = styled.div`
-  padding-inline: calc((100% - 1200px) / 2);
+const Container = styled.article`
+  padding-inline: 10em;
 `;
 
-const Title = styled.h3`
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-top: 3em;
-  margin-bottom: 1.5em;
+const Title = styled.h2`
+  padding-block: 80px 40px;
+  font-weight: 700;
+  font-size: ${((props) => props.theme.size.h4)};
 `;
 
-const List = styled.ul`
+const Items = styled.ul`
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 3em;
   flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 80px;
+`;
+
+const NoContent = styled.p`
+  margin-top: 80px;
+  font-weight: 700;
+  font-size: ${((props) => props.theme.size.h4)};
+  text-align: center;
 `;

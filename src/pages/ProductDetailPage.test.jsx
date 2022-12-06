@@ -1,11 +1,8 @@
-import {
-  render, screen, waitFor,
-} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import ProductDetailPage from './ProductDetailPage';
 
-const navigate = jest.fn();
-
-jest.mock('../assets', () => ({
+jest.mock('../assets/index', () => ({
   icons: {
     minusBlack: 'MinusBlack.png',
     minusGray: 'MinusGray.png',
@@ -13,37 +10,18 @@ jest.mock('../assets', () => ({
   },
 }));
 
-jest.mock('react-router-dom', () => ({
-  useNavigate() {
-    return navigate;
-  },
-  useParams: () => ({
-    id: '1',
-  }),
-}));
-
-jest.mock('../hooks/useProductStore', () => () => ({
-  product: {
-    id: 1,
-    price: 1000,
-    name: 'sofa',
-    maker: 'brand',
-    description: 'this is sofa',
-    imageUrl: '...',
-  },
-  resetProductState: jest.fn(),
-  fetchProduct: jest.fn(),
-  totalPrice: jest.fn(),
-}));
-
 describe('ProductDetailPage', () => {
-  it('상품 상세 페이지', async () => {
+  it('선물하기 버튼이 보인다', async () => {
     render(
-      <ProductDetailPage />,
+      <MemoryRouter initialEntries={['/products/1']}>
+        <Routes>
+          <Route path="/products/:id" element={<ProductDetailPage />} />
+        </Routes>
+      </MemoryRouter>,
     );
 
     await waitFor(() => {
-      screen.getByText(/선물하기/);
+      screen.getByText('선물하기');
     });
   });
 });

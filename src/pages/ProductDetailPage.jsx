@@ -6,8 +6,6 @@ import useProductStore from '../hooks/useProductStore';
 export default function ProductDetailPage() {
   const productStore = useProductStore();
 
-  const { product } = productStore;
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -17,12 +15,6 @@ export default function ProductDetailPage() {
       productStore.fetchProduct(id);
     }
   }, [id]);
-
-  if (!product) {
-    return (
-      <p>Loading...</p>
-    );
-  }
 
   return (
     <ProductDetail />

@@ -10,7 +10,7 @@ export default function useStore(store) {
     return () => {
       store.unsubscribe(forceUpdate);
     };
-  }, [forceUpdate]);
+  }, []);
 
   return store;
 }

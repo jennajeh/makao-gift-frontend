@@ -2,8 +2,10 @@ import {
   render, screen, waitFor,
 } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
 import ProductsList from './ProductsList';
+import defaultTheme from '../styles/defaultTheme';
 
 let products;
 const context = describe;
@@ -12,7 +14,9 @@ describe('ProductList', () => {
   function renderProductList() {
     render(
       <MemoryRouter>
-        <ProductsList products={products} />
+        <ThemeProvider theme={defaultTheme}>
+          <ProductsList products={products} />
+        </ThemeProvider>
       </MemoryRouter>,
     );
   }
@@ -26,7 +30,7 @@ describe('ProductList', () => {
       renderProductList();
 
       await waitFor(() => {
-        screen.getByText('상품이 존재하지 않습니다.');
+        screen.getByText('상품이 존재하지 않습니다');
       });
     });
   });
