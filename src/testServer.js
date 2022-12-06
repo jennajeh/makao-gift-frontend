@@ -28,6 +28,14 @@ const server = setupServer(
     );
   }),
 
+  rest.get(`${baseUrl}/users/me`, async (req, res, ctx) => res(
+    ctx.json({
+      accessToken: 'ACCESS.TOKEN',
+      name: '전제나',
+      amount: 50_000,
+    }),
+  )),
+
   rest.get(`${baseUrl}/products`, async (req, res, ctx) => res(
     ctx.json({
       products: [
