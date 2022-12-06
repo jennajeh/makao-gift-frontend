@@ -6,19 +6,17 @@ import useProductStore from '../hooks/useProductStore';
 export default function ProductDetailPage() {
   const productStore = useProductStore();
 
-  const { id } = useParams();
-
   const { product } = productStore;
+
+  const { id } = useParams();
 
   useEffect(() => {
     productStore.resetProductState();
 
-    productStore.fetchProduct(id);
-  }, []);
-
-  const handleChangeQuantityDown = () => {
-    productStore.quantityDown();
-  };
+    if (id) {
+      productStore.fetchProduct(id);
+    }
+  }, [id]);
 
   if (!product) {
     return (
@@ -27,8 +25,6 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <ProductDetail
-      handleChangeQuantityDown={handleChangeQuantityDown}
-    />
+    <ProductDetail />
   );
 }

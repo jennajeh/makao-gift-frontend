@@ -18,7 +18,11 @@ export default class ApiService {
     const url = `${baseUrl}/session`;
     const { data } = await axios.post(url, { username, password });
 
-    return data;
+    return {
+      accessToken: data.accessToken,
+      name: data.name,
+      amount: data.amount,
+    };
   }
 
   async fetchProducts() {

@@ -5,19 +5,18 @@ import { useLocalStorage } from 'usehooks-ts';
 import useProductStore from '../hooks/useProductStore';
 import useUserStore from '../hooks/useUserStore';
 import numberFormat from '../utils/numberFormat';
-import { iconImages } from '../assets/index';
+import { icons } from '../assets';
 
-export default function ProductDetail({
-  handleChangeQuantityDown,
-}) {
+export default function ProductDetail() {
   const navigate = useNavigate();
 
   const [accessToken] = useLocalStorage('accessToken', '');
 
   const productStore = useProductStore();
-  const userStore = useUserStore();
 
   const { product } = productStore;
+
+  const userStore = useUserStore();
 
   const handleClickOrder = () => {
     if (!accessToken) {
@@ -30,8 +29,6 @@ export default function ProductDetail({
       navigate('/order');
     }
   };
-
-  console.log(productStore.totalPrice());
 
   return (
     <Container>
@@ -58,16 +55,16 @@ export default function ProductDetail({
                 disabled={productStore.quantity === 1}
               >
                 -
-                <img src={iconImages.icons.minusGray} alt="minus-gray" />
+                <img src={icons.minusGray} alt="minus-gray" />
               </DisabledMinus>
             ) : (
               <EnabledMinus
                 type="button"
                 name="minus-black"
-                onClick={handleChangeQuantityDown}
+                onClick={() => productStore.quantityDown()}
               >
                 -
-                <img src={iconImages.icons.minusBlack} alt="minus-black" />
+                <img src={icons.minusBlack} alt="minus-black" />
               </EnabledMinus>
             )}
             <p>{productStore.quantity}</p>
@@ -77,7 +74,7 @@ export default function ProductDetail({
               onClick={() => productStore.quantityUp()}
             >
               +
-              <img src={iconImages.icons.plusBlack} alt="plus-black" />
+              <img src={icons.plusBlack} alt="plus-black" />
             </Plus>
           </Quantity>
         </Table>

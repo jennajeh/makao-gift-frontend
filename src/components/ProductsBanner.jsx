@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { backgroundImages } from '../assets/index';
+import { images } from '../assets';
 
 export default function ProductsBanner() {
   return (
-    <Container image={backgroundImages.images.login}>
+    <Container image={images.login}>
       <Wrapper>
         <p>평범한 선물은 주기도 민망하다구요?</p>
         <h2>

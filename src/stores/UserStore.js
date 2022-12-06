@@ -30,6 +30,17 @@ export default class UserStore extends Store {
     }
   }
 
+  async fetchUser() {
+    const { name, amount, mutate } = await apiService.fetchUser();
+
+    this.name = name;
+    this.amount = amount;
+
+    this.publish();
+
+    return { mutate };
+  }
+
   changeUsername(username) {
     this.username = username;
 
@@ -42,11 +53,7 @@ export default class UserStore extends Store {
     this.publish();
   }
 
-  resetUserStatus() {
-    this.name = '';
-    this.username = '';
-    this.password = '';
-    this.amount = 0;
+  resetLoginStatus() {
     this.loginStatus = '';
 
     this.publish();

@@ -1,20 +1,18 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import HomePage from './HomePage';
 import defaultTheme from '../styles/defaultTheme';
-import LoginPage from './LoginPage';
 
-test('LoginPage', async () => {
+test('HomePage', async () => {
   render((
     <ThemeProvider theme={defaultTheme}>
-      <MemoryRouter>
-        <LoginPage />
-      </MemoryRouter>
+      <HomePage />
     </ThemeProvider>
   ));
 
   await waitFor(() => {
-    screen.getByText(/USER LOGIN/);
-    screen.getByText(/로그인하기/);
+    screen.getAllByText(/무얼 선물할 지 고민이라면/);
+    screen.getAllByText(/특별한/);
+    screen.getAllByText(/아이템을 전하세요/);
   });
 });

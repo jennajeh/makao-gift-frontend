@@ -6,12 +6,10 @@ import ProductDetailPage from './ProductDetailPage';
 const navigate = jest.fn();
 
 jest.mock('../assets', () => ({
-  iconImages: {
-    icons: {
-      minusBlack: 'MinusBlack.png',
-      minusGray: 'MinusGray.png',
-      plusBlack: 'PlusBlack.png',
-    },
+  icons: {
+    minusBlack: 'MinusBlack.png',
+    minusGray: 'MinusGray.png',
+    plusBlack: 'PlusBlack.png',
   },
 }));
 

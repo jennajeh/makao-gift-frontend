@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { Reset } from 'styled-reset';
 import { useLocalStorage } from 'usehooks-ts';
 import Header from './components/Header';
@@ -14,6 +14,7 @@ import ProductsPage from './pages/ProductsPage';
 import SignupPage from './pages/SignupPage';
 import WelcomePage from './pages/WelcomePage';
 import { apiService } from './services/ApiService';
+import defaultTheme from './styles/defaultTheme';
 import GlobalStyle from './styles/GlobalStyle';
 
 export default function App() {
@@ -24,7 +25,7 @@ export default function App() {
   }, [accessToken]);
 
   return (
-    <>
+    <ThemeProvider theme={defaultTheme}>
       <Reset />
       <GlobalStyle />
       <Header />
@@ -41,7 +42,7 @@ export default function App() {
           <Route path="/welcome" element={<WelcomePage />} />
         </Routes>
       </Main>
-    </>
+    </ThemeProvider>
   );
 }
 

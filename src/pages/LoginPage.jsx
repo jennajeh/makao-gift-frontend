@@ -8,7 +8,7 @@ export default function LoginPage() {
   const userStore = useUserStore();
 
   useEffect(() => () => {
-    userStore.resetUserStatus();
+    userStore.resetLoginStatus();
   }, []);
 
   return (
