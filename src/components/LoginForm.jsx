@@ -1,24 +1,55 @@
+/* eslint-disable react/prop-types */
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
+import useUserStore from '../hooks/useUserStore';
 
-export default function LoginForm() {
+export default function LoginForm({ location }) {
+  const navigate = useNavigate();
+  const userStore = useUserStore();
+  const { username, password } = userStore;
+
+  const [, setAccessToken] = useLocalStorage('accessToken', '');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const accessToken = await userStore.login({ username, password });
+
+    if (userStore.loginSuccessful) {
+      setAccessToken(accessToken);
+
+      if (location.state?.previousPage === 'productDetailPage') {
+        navigate(-1);
+      }
+    }
+
+    navigate('/');
+  };
+
   return (
     <Container>
       <Title>USER LOGIN</Title>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Field
-          id="input-userId"
-          name="userId"
+          type="text"
+          name="username"
           placeholder="아이디"
+          value={userStore.username}
+          onChange={(e) => userStore.changeUsername(e.target.value)}
         />
         <Field
-          id="input-password"
-          name="password"
           type="password"
+          name="password"
           placeholder="비밀번호"
+          value={userStore.password}
+          onChange={(e) => userStore.changePassword(e.target.value)}
         />
         <Login type="submit">로그인하기</Login>
       </Form>
-      <Signup type="button">회원가입</Signup>
+      <Signup>
+        <Link to="/signup">회원가입</Link>
+      </Signup>
     </Container>
   );
 }
@@ -48,7 +79,6 @@ const Field = styled.input`
     padding-block: 1em;
     padding-inline: 1em;
     margin-bottom: .7em;
-    border: ${(props) => (props.error ? '1px solid #F00' : '1px solid #EEEEEE')};
     ::placeholder {
       color: #CBCBCB;
     }
@@ -58,8 +88,6 @@ const Field = styled.input`
 `;
 
 const Login = styled.button`
-  color: ${(props) => props.theme.primaryButton.text};
-  background: ${(props) => props.theme.primaryButton.background};
   border: none;
   border-radius: 4px;
   width: 100%;
@@ -67,7 +95,8 @@ const Login = styled.button`
   margin-top: 1em;
 `;
 
-const Signup = styled.button`
+const Signup = styled.div`
+  font-size: .9em;
   margin-top: 3em;
   background: none;
   border: none;

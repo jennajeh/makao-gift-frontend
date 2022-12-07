@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
 * {
     box-sizing: border-box;
-    color: ${(props) => props.theme.colors.text};
+    color: black;
     word-break: keep-all;
 }
 
