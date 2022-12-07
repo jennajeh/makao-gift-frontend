@@ -52,4 +52,5 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   background: url(${({ image }) => image}) no-repeat 50% 100%;
+  background-size: contain;
 `;

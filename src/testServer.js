@@ -27,6 +27,44 @@ const server = setupServer(
     );
   }),
 
+  rest.post(`${baseUrl}/users`, async (req, res, ctx) => {
+    const {
+      name, username, password, passwordCheck,
+    } = await req.json();
+
+    if (name === '전제나'
+    && username === 'Test1'
+    && password === 'Test123!'
+    && passwordCheck === 'Test123!') {
+      return res(
+        ctx.json({
+          id: 1,
+          name: '전제나',
+          username: 'Test1',
+        }),
+      );
+    }
+
+    return res(
+      ctx.status(400),
+    );
+  }),
+
+  rest.get(`${baseUrl}/users`, async (req, res, ctx) => {
+    const countOnly = req.url.searchParams.get('countOnly');
+    const username = req.url.searchParams.get('username');
+
+    if (countOnly && username === 'existed') {
+      return res(ctx.json({
+        count: 1,
+      }));
+    }
+
+    return res(ctx.json({
+      count: 0,
+    }));
+  }),
+
   rest.get(`${baseUrl}/users/me`, async (req, res, ctx) => res(
     ctx.json({
       accessToken: 'ACCESS.TOKEN',
