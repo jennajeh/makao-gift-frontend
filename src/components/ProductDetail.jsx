@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLocalStorage } from 'usehooks-ts';
+import { useState } from 'react';
 import useProductStore from '../hooks/useProductStore';
 import useUserStore from '../hooks/useUserStore';
 import numberFormat from '../utils/numberFormat';
@@ -12,11 +13,19 @@ export default function ProductDetail() {
 
   const [accessToken] = useLocalStorage('accessToken', '');
 
+  const userStore = useUserStore();
+
   const productStore = useProductStore();
 
   const { product } = productStore;
 
-  const userStore = useUserStore();
+  const {
+    name, price, maker, description, imageUrl,
+  } = product;
+
+  const [quantity, setQuantity] = useState(1);
+
+  const totalPrice = price * quantity;
 
   const handleClickOrder = () => {
     if (!accessToken) {
@@ -25,7 +34,7 @@ export default function ProductDetail() {
       return;
     }
 
-    if (userStore.hasEnoughAmount(productStore.totalPrice())) {
+    if (userStore.hasEnoughAmount(totalPrice)) {
       navigate('/order');
     }
   };
@@ -39,17 +48,17 @@ export default function ProductDetail() {
   return (
     <Container>
       <ImageBox>
-        <img src={product.imageUrl} alt={product.name} />
+        <img src={imageUrl} alt={name} />
       </ImageBox>
       <ContentBox>
-        <ProductName>{product.name}</ProductName>
+        <ProductName>{name}</ProductName>
         <Price>
-          {numberFormat(product.price)}
+          {numberFormat(price)}
           원
         </Price>
         <Table>
           <Label>제조사</Label>
-          <Maker>{product.maker}</Maker>
+          <Maker>{maker}</Maker>
         </Table>
         <Table>
           <Label>구매수량</Label>
@@ -86,27 +95,27 @@ export default function ProductDetail() {
         </Table>
         <LastRow>
           <Label>상품설명</Label>
-          <Description>{product.description}</Description>
+          <Description>{description}</Description>
         </LastRow>
         <TotalPriceSection>
           <p>총 상품금액:</p>
           <TotalPrice>
-            {numberFormat(productStore.totalPrice())}
+            {numberFormat(totalPrice)}
             원
           </TotalPrice>
         </TotalPriceSection>
         <Button type="button" onClick={handleClickOrder}>
           선물하기
         </Button>
-        {accessToken && !userStore.hasEnoughAmount(productStore.totalPrice())
+        {accessToken && !userStore.hasEnoughAmount(totalPrice)
         && (
-          <p>
+          <Error>
             ❌
             {' '}
             잔액이 부족하여 선물하기가 불가합니다
             {' '}
             ❌
-          </p>
+          </Error>
         )}
       </ContentBox>
     </Container>

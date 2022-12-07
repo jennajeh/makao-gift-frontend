@@ -18,10 +18,6 @@ export default class ProductStore extends Store {
     this.publish();
   }
 
-  totalPrice() {
-    return this.product.price * this.count;
-  }
-
   quantityUp() {
     this.quantity += 1;
 

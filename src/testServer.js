@@ -12,8 +12,7 @@ const server = setupServer(
       username, password,
     } = await req.json();
 
-    if (username === 'Test1'
-    && password === 'Test123!') {
+    if (username === 'Test1' && password === 'Test123!') {
       return res(
         ctx.json({
           accessToken: 'ACCESS.TOKEN',
@@ -61,16 +60,12 @@ const server = setupServer(
 
   rest.get(`${baseUrl}/products/1`, async (req, res, ctx) => res(
     ctx.json({
-      products: [
-        {
-          id: 1,
-          name: '테스트용 게시물 1',
-          price: 10_000,
-          maker: '테스트 1 메이커',
-          description: '테스트용 게시물 1 입니다.',
-          imageUrl: 'imageUrl',
-        },
-      ],
+      id: 1,
+      name: '테스트용 게시물 1',
+      price: 10_000,
+      maker: '테스트 1 메이커',
+      description: '테스트용 게시물 1 입니다.',
+      imageUrl: 'imageUrl',
     }),
   )),
 );

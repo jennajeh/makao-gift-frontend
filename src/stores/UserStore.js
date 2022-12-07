@@ -6,8 +6,6 @@ export default class UserStore extends Store {
     super();
 
     this.name = '';
-    this.username = '';
-    this.password = '';
     this.amount = 0;
 
     this.loginStatus = '';
@@ -45,14 +43,12 @@ export default class UserStore extends Store {
   }
 
   async fetchUser() {
-    const { name, amount, mutate } = await apiService.fetchUser();
+    const { name, amount } = await apiService.fetchUser();
 
     this.name = name;
     this.amount = amount;
 
     this.publish();
-
-    return { mutate };
   }
 
   changeUsername(username) {
@@ -88,6 +84,11 @@ export default class UserStore extends Store {
 
   hasEnoughAmount(amount) {
     return this.amount >= amount;
+  }
+
+  setAmount(amount) {
+    this.amount = amount;
+    this.publish();
   }
 
   get loginSuccessful() {

@@ -11,7 +11,7 @@ jest.mock('../assets/index', () => ({
 }));
 
 describe('ProductDetailPage', () => {
-  it('선물하기 버튼이 보인다', async () => {
+  it('선물하기 버튼이 보인다', async () => async (act) => {
     render(
       <MemoryRouter initialEntries={['/products/1']}>
         <Routes>

@@ -11,10 +11,8 @@ export default function ProductDetailPage() {
   useEffect(() => {
     productStore.resetProductState();
 
-    if (id) {
-      productStore.fetchProduct(id);
-    }
-  }, [id]);
+    productStore.fetchProduct(id);
+  }, []);
 
   return (
     <ProductDetail />

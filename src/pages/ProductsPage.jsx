@@ -5,7 +5,6 @@ import useProductStore from '../hooks/useProductStore';
 
 export default function ProductsPage() {
   const productStore = useProductStore();
-  const { products } = productStore;
 
   useEffect(() => {
     productStore.fetchProducts();
@@ -14,9 +13,7 @@ export default function ProductsPage() {
   return (
     <div>
       <ProductsBanner />
-      <ProductsList
-        products={products}
-      />
+      <ProductsList />
     </div>
   );
 }

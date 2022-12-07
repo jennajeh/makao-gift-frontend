@@ -1,14 +1,20 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
+import useProductStore from '../hooks/useProductStore';
 import ProductItem from './ProductItem';
 
-export default function ProductsList({ products }) {
+export default function ProductsList() {
+  const productStore = useProductStore();
+
+  const { products } = productStore;
+
   return (
     <Container>
       {products.length ? (
         <>
           <Title>인기선물을 한 자리에 모았어요</Title>
           <Items>
+            {/* TODO: 페이지네이션 기능 구현 필요!(slice 제거) */}
             {products.slice(0, 8).map((product) => (
               <ProductItem
                 key={product.id}

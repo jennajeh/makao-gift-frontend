@@ -8,15 +8,25 @@ const baseUrl = config.apiBaseUrl;
 export default class ApiService {
   constructor() {
     this.accessToken = '';
+
+    this.instance = axios.create({
+      baseURL: baseUrl,
+    });
   }
 
   setAccessToken(accessToken) {
     this.accessToken = accessToken;
+
+    if (accessToken) {
+      this.instance = axios.create({
+        baseURL: baseUrl,
+        headers: { Authorization: `Bearer ${this.accessToken}` },
+      });
+    }
   }
 
   async postSession({ username, password }) {
-    const url = `${baseUrl}/session`;
-    const { data } = await axios.post(url, { username, password });
+    const { data } = await this.instance.post('/session', { username, password });
 
     return {
       accessToken: data.accessToken,
@@ -26,13 +36,7 @@ export default class ApiService {
   }
 
   async fetchUser() {
-    const url = `${baseUrl}/users/me`;
-
-    const { data } = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${this.accessToken}`,
-      },
-    });
+    const { data } = await this.instance.get('/users/me');
 
     return {
       accessToken: data.accessToken,
@@ -42,16 +46,15 @@ export default class ApiService {
   }
 
   async fetchProducts() {
-    const url = `${baseUrl}/products`;
+    const { data } = await this.instance.get('/products');
 
-    const { data } = await axios.get(url);
     const { products } = data;
+
     return products;
   }
 
   async fetchProduct(id) {
-    const url = `${baseUrl}/products/${id}`;
-    const { data } = await axios.get(url);
+    const { data } = await this.instance.get(`/products/${id}`);
 
     return data;
   }
