@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useLocation, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useProductStore from '../hooks/useProductStore';
 import ProductItem from './ProductItem';
@@ -7,6 +8,10 @@ export default function ProductsList() {
   const productStore = useProductStore();
 
   const { products } = productStore;
+
+  const location = useLocation();
+
+  const [searchParams] = useSearchParams();
 
   return (
     <Container>

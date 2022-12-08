@@ -59,7 +59,6 @@ export default class ApiService {
     const { data } = await this.instance.post('/orders', {
       productId, quantity, receiver, address, message,
     });
-    console.log(data);
     return {
       id: data.id,
     };
@@ -75,12 +74,15 @@ export default class ApiService {
     };
   }
 
-  async fetchProducts() {
-    const { data } = await this.instance.get('/products');
+  async fetchProducts({ page = 1, size }) {
+    const { data } = await this.instance.get(`/products?page=${page}&size=${size}`);
 
-    const { products } = data;
+    const { metadata, products } = data;
 
-    return products;
+    return {
+      metadata,
+      products,
+    };
   }
 
   async fetchProduct(id) {
@@ -89,13 +91,14 @@ export default class ApiService {
     return data;
   }
 
-  async fetchOrders() {
-    console.log(3);
-    const { data } = await this.instance.get('/orders');
-    console.log(data);
-    const { orders } = data;
+  async fetchOrders({ page = 1, size }) {
+    const { data } = await this.instance.get(`/orders?page=${page}&size=${size}`);
+    const { metadata, orders } = data;
 
-    return orders;
+    return {
+      metadata,
+      orders,
+    };
   }
 
   async fetchOrder(id) {

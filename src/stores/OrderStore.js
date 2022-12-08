@@ -7,6 +7,7 @@ export default class OrderStore extends Store {
 
     this.quantity = 1;
     this.totalPrice = 0;
+    this.totalPages = 0;
 
     this.receiver = '';
     this.address = '';
@@ -49,9 +50,11 @@ export default class OrderStore extends Store {
     }
   }
 
-  async fetchOrders() {
-    console.log(2);
-    this.orders = await apiService.fetchOrders();
+  async fetchOrders({ page, size }) {
+    const { metadata, orders } = await apiService.fetchOrders({ page, size });
+
+    this.totalPages = metadata.totalPages;
+    this.orders = orders;
 
     this.publish();
   }

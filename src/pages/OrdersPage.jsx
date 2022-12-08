@@ -6,9 +6,7 @@ export default function OrdersPage() {
   const orderStore = useOrderStore();
 
   useEffect(() => {
-    console.log(1);
     orderStore.fetchOrders();
-    console.log(orderStore.orders);
   }, []);
 
   return (
