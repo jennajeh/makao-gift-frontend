@@ -52,7 +52,7 @@ export default function LoginForm({ location }) {
           />
           <Input
             id="input-password"
-            type="password"
+            type="text"
             name="password"
             placeholder="비밀번호"
             {...register('password', {

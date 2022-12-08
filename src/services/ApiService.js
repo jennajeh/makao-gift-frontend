@@ -56,10 +56,10 @@ export default class ApiService {
   async postOrder({
     productId, quantity, receiver, address, message,
   }) {
-    const { data } = await this.instance.get('/orders', {
+    const { data } = await this.instance.post('/orders', {
       productId, quantity, receiver, address, message,
     });
-
+    console.log(data);
     return {
       id: data.id,
     };
@@ -90,8 +90,9 @@ export default class ApiService {
   }
 
   async fetchOrders() {
+    console.log(3);
     const { data } = await this.instance.get('/orders');
-
+    console.log(data);
     const { orders } = data;
 
     return orders;

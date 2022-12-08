@@ -31,14 +31,14 @@ const server = setupServer(
     } = await req.json();
 
     if (name === '전제나'
-    && username === 'Test1'
+    && username === 'test1'
     && password === 'Test123!'
     && passwordCheck === 'Test123!') {
       return res(
         ctx.json({
           id: 1,
           name: '전제나',
-          username: 'Test1',
+          username: 'test1',
         }),
       );
     }

@@ -50,13 +50,14 @@ export default class OrderStore extends Store {
   }
 
   async fetchOrders() {
-    this.orders = apiService.fetchOrders();
+    console.log(2);
+    this.orders = await apiService.fetchOrders();
 
     this.publish();
   }
 
   async fetchOrder(id) {
-    this.order = apiService.fetchOrders(id);
+    this.order = await apiService.fetchOrder(id);
 
     this.publish();
   }
