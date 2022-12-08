@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 export default function useForceUpdate() {
-  const [count, setCount] = useState(0);
+  const [, forceUpdate] = useState(0);
 
   return () => {
-    setCount(count + 1);
+    forceUpdate((prevValue) => prevValue + 1);
   };
 }

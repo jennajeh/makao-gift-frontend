@@ -1,10 +1,12 @@
-const { render } = require('@testing-library/react');
-const { MemoryRouter } = require('react-router-dom');
-const { default: App } = require('./App');
+import { render } from '@testing-library/react';
+
+import { MemoryRouter } from 'react-router-dom';
+
+import App from './App';
 
 test('App', () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={['/']}>
       <App />
     </MemoryRouter>,
   );

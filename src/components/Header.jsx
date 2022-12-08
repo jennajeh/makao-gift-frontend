@@ -9,6 +9,8 @@ export default function Header() {
 
   const userStore = useUserStore();
 
+  const { amount } = userStore;
+
   const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
 
   const handleLogout = () => {
@@ -47,7 +49,7 @@ export default function Header() {
               <li>
                 내 잔액:
                 {' '}
-                {numberFormat(userStore.amount)}
+                {numberFormat(amount)}
                 원
               </li>
               <li>

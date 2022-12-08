@@ -7,46 +7,85 @@ export default class UserStore extends Store {
 
     this.name = '';
     this.username = '';
-    this.password = '';
     this.amount = 0;
+
     this.loginStatus = '';
+    this.signupStatus = '';
+
+    this.errorMessage = '';
+    this.errorStatus = '';
   }
 
-  async login({ username, password }) {
-    this.changeLoginStatus('processing');
+  async signup({
+    name, username, password, passwordCheck,
+  }) {
+    this.errorMessage = '';
+
+    this.changeSignupStatus('processing');
+    this.publish();
 
     try {
-      const { accessToken, amount } = await apiService.postSession({ username, password });
+      const { id } = await apiService.createUser({
+        name, username, password, passwordCheck,
+      });
 
-      this.amount = amount;
+      this.changeSignupStatus('successful');
+      this.publish();
 
-      this.changeLoginStatus('successful');
+      return id;
+    } catch (e) {
+      this.changeSignupStatus('failed');
+      this.publish();
 
-      return accessToken;
-    } catch {
-      this.changeLoginStatus('failed');
+      const message = e.response.data;
+
+      this.changeSignupErrorStatus({ errorMessage: message });
+      this.publish();
 
       return '';
     }
   }
 
-  changeUsername(username) {
-    this.username = username;
+  async login({ username, password }) {
+    this.errorMessage = '';
+
+    this.changeLoginStatus('processing');
+    this.publish();
+
+    try {
+      const { accessToken, name, amount } = await apiService.postSession({ username, password });
+
+      this.accessToken = accessToken;
+      this.amount = amount;
+      this.name = name;
+
+      this.changeLoginStatus('successful');
+      this.publish();
+
+      return accessToken;
+    } catch (e) {
+      this.changeLoginStatus('failed');
+      this.publish();
+
+      const message = e.response.data;
+
+      this.changeLoginErrorStatus({ errorMessage: message });
+      this.publish();
+
+      return '';
+    }
+  }
+
+  async fetchUser() {
+    const { name, amount } = await apiService.fetchUser();
+
+    this.name = name;
+    this.amount = amount;
 
     this.publish();
   }
 
-  changePassword(password) {
-    this.password = password;
-
-    this.publish();
-  }
-
-  resetUserStatus() {
-    this.name = '';
-    this.username = '';
-    this.password = '';
-    this.amount = 0;
+  resetLoginStatus() {
     this.loginStatus = '';
 
     this.publish();
@@ -58,8 +97,47 @@ export default class UserStore extends Store {
     this.publish();
   }
 
+  resetSignupStatus() {
+    this.signupStatus = '';
+
+    this.publish();
+  }
+
+  changeSignupStatus(status) {
+    this.signupStatus = status;
+
+    this.publish();
+  }
+
+  changeLoginErrorStatus({ errorMessage = '' } = {}) {
+    this.errorMessage = errorMessage;
+    this.errorStatus = 'loginError';
+
+    this.publish();
+  }
+
+  changeSignupErrorStatus({ errorMessage = '' } = {}) {
+    this.errorMessage = errorMessage;
+    this.errorStatus = 'signupError';
+
+    this.publish();
+  }
+
   hasEnoughAmount(amount) {
     return this.amount >= amount;
+  }
+
+  setAmount(amount) {
+    this.amount = amount;
+    this.publish();
+  }
+
+  get signupSuccessful() {
+    return this.signupStatus === 'successful';
+  }
+
+  get signupFailed() {
+    return this.signupStatus === 'failed';
   }
 
   get loginSuccessful() {

@@ -8,30 +8,71 @@ const baseUrl = config.apiBaseUrl;
 export default class ApiService {
   constructor() {
     this.accessToken = '';
+
+    this.instance = axios.create({
+      baseURL: baseUrl,
+    });
   }
 
   setAccessToken(accessToken) {
     this.accessToken = accessToken;
+
+    if (accessToken) {
+      this.instance = axios.create({
+        baseURL: baseUrl,
+        headers: { Authorization: `Bearer ${this.accessToken}` },
+      });
+    }
+  }
+
+  async createUser({
+    name, username, password, passwordCheck,
+  }) {
+    const { data } = await this.instance.post('/users', {
+      name, username, password, passwordCheck,
+    });
+
+    return {
+      id: data.id,
+    };
+  }
+
+  async countUser(username) {
+    const { data } = await this.instance.get(`/users?countOnly=true&username=${username}`);
+
+    return data.count;
   }
 
   async postSession({ username, password }) {
-    const url = `${baseUrl}/session`;
-    const { data } = await axios.post(url, { username, password });
+    const { data } = await this.instance.post('/session', { username, password });
 
-    return data;
+    return {
+      accessToken: data.accessToken,
+      name: data.name,
+      amount: data.amount,
+    };
+  }
+
+  async fetchUser() {
+    const { data } = await this.instance.get('/users/me');
+
+    return {
+      accessToken: data.accessToken,
+      name: data.name,
+      amount: data.amount,
+    };
   }
 
   async fetchProducts() {
-    const url = `${baseUrl}/products`;
+    const { data } = await this.instance.get('/products');
 
-    const { data } = await axios.get(url);
     const { products } = data;
+
     return products;
   }
 
   async fetchProduct(id) {
-    const url = `${baseUrl}/products/${id}`;
-    const { data } = await axios.get(url);
+    const { data } = await this.instance.get(`/products/${id}`);
 
     return data;
   }

@@ -12,8 +12,7 @@ const server = setupServer(
       username, password,
     } = await req.json();
 
-    if (username === 'Test1'
-    && password === 'Test123!') {
+    if (username === 'Test1' && password === 'Test123!') {
       return res(
         ctx.json({
           accessToken: 'ACCESS.TOKEN',
@@ -27,6 +26,52 @@ const server = setupServer(
       ctx.status(400),
     );
   }),
+
+  rest.post(`${baseUrl}/users`, async (req, res, ctx) => {
+    const {
+      name, username, password, passwordCheck,
+    } = await req.json();
+
+    if (name === '전제나'
+    && username === 'Test1'
+    && password === 'Test123!'
+    && passwordCheck === 'Test123!') {
+      return res(
+        ctx.json({
+          id: 1,
+          name: '전제나',
+          username: 'Test1',
+        }),
+      );
+    }
+
+    return res(
+      ctx.status(400),
+    );
+  }),
+
+  rest.get(`${baseUrl}/users`, async (req, res, ctx) => {
+    const countOnly = req.url.searchParams.get('countOnly');
+    const username = req.url.searchParams.get('username');
+
+    if (countOnly && username === 'existed') {
+      return res(ctx.json({
+        count: 1,
+      }));
+    }
+
+    return res(ctx.json({
+      count: 0,
+    }));
+  }),
+
+  rest.get(`${baseUrl}/users/me`, async (req, res, ctx) => res(
+    ctx.json({
+      accessToken: 'ACCESS.TOKEN',
+      name: '전제나',
+      amount: 50_000,
+    }),
+  )),
 
   rest.get(`${baseUrl}/products`, async (req, res, ctx) => res(
     ctx.json({
@@ -53,16 +98,12 @@ const server = setupServer(
 
   rest.get(`${baseUrl}/products/1`, async (req, res, ctx) => res(
     ctx.json({
-      products: [
-        {
-          id: 1,
-          name: '테스트용 게시물 1',
-          price: 10_000,
-          maker: '테스트 1 메이커',
-          description: '테스트용 게시물 1 입니다.',
-          imageUrl: 'imageUrl',
-        },
-      ],
+      id: 1,
+      name: '테스트용 게시물 1',
+      price: 10_000,
+      maker: '테스트 1 메이커',
+      description: '테스트용 게시물 1 입니다.',
+      imageUrl: 'imageUrl',
     }),
   )),
 );

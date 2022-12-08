@@ -1,18 +1,20 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import defaultTheme from '../styles/defaultTheme';
 import ProductsPage from './ProductsPage';
 
-describe('ProductsPage', () => {
-  it('상품 목록 반환', async () => {
-    render(
-      <MemoryRouter>
+test('ProductsPage', async () => async (act) => {
+  render((
+    <MemoryRouter>
+      <ThemeProvider theme={defaultTheme}>
         <ProductsPage />
-      </MemoryRouter>,
-    );
+      </ThemeProvider>
 
-    await waitFor(() => {
-      screen.getAllByText(/마카오톡 선물하기 아이템/);
-      screen.getAllByText(/테스트용 게시물/);
-    });
+    </MemoryRouter>
+  ));
+
+  await waitFor(() => {
+    screen.getByText(/마카오톡 선물하기 아이템/);
   });
 });

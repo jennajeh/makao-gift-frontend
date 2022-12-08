@@ -9,7 +9,6 @@ export default class ProductStore extends Store {
     this.product = {};
 
     this.quantity = 1;
-    this.totalPrice = 0;
   }
 
   resetProductState() {
@@ -17,10 +16,6 @@ export default class ProductStore extends Store {
     this.product = {};
 
     this.publish();
-  }
-
-  totalPrice() {
-    return this.product.price * this.count;
   }
 
   quantityUp() {
@@ -40,8 +35,6 @@ export default class ProductStore extends Store {
   }
 
   async fetchProducts() {
-    this.resetProductState();
-
     this.products = await apiService.fetchProducts();
 
     this.publish();
@@ -49,8 +42,6 @@ export default class ProductStore extends Store {
 
   async fetchProduct(id) {
     this.product = await apiService.fetchProduct(id);
-
-    this.totalPrice = this.quantity * this.product.price;
 
     this.publish();
   }

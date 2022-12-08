@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { Reset } from 'styled-reset';
 import { useLocalStorage } from 'usehooks-ts';
 import Header from './components/Header';
+import Welcome from './components/Welcome';
+import useUserStore from './hooks/useUserStore';
+
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import OrderDetailPage from './pages/OrderHistoryPage';
@@ -12,19 +15,26 @@ import OrderPage from './pages/OrderPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ProductsPage from './pages/ProductsPage';
 import SignupPage from './pages/SignupPage';
-import WelcomePage from './pages/WelcomePage';
 import { apiService } from './services/ApiService';
+
+import defaultTheme from './styles/defaultTheme';
 import GlobalStyle from './styles/GlobalStyle';
 
 export default function App() {
+  const userStore = useUserStore();
+
   const [accessToken] = useLocalStorage('accessToken', '');
 
   useEffect(() => {
     apiService.setAccessToken(accessToken);
+
+    if (accessToken) {
+      userStore.fetchUser();
+    }
   }, [accessToken]);
 
   return (
-    <>
+    <ThemeProvider theme={defaultTheme}>
       <Reset />
       <GlobalStyle />
       <Header />
@@ -38,10 +48,10 @@ export default function App() {
           <Route path="/order" element={<OrderPage />} />
           <Route path="/orders" element={<OrderListPage />} />
           <Route path="/orders/:id" element={<OrderDetailPage />} />
-          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/welcome" element={<Welcome />} />
         </Routes>
       </Main>
-    </>
+    </ThemeProvider>
   );
 }
 

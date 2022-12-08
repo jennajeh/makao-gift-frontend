@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import numberFormat from '../utils/numberFormat';
@@ -10,70 +9,54 @@ export default function ProductItem({ product }) {
   } = product;
 
   return (
-    <Container>
-      <Wrapper>
-        <Link to={`/products/${id}`}>
-          <Image>
-            <img src={imageUrl} alt={name} />
-          </Image>
-          <Text>
-            <p>{maker}</p>
-            <p className="name">{name}</p>
-            <p>
-              <strong>{numberFormat(price)}</strong>
-              원
-            </p>
-          </Text>
-        </Link>
-      </Wrapper>
-    </Container>
+    <Link to={`/products/${id}`}>
+      <Container>
+        <ImageWrapper>
+          <img src={imageUrl} alt={name} />
+        </ImageWrapper>
+        <h4>{maker}</h4>
+        <h3>{name}</h3>
+        <strong>
+          {numberFormat(price)}
+          원
+        </strong>
+      </Container>
+    </Link>
   );
 }
 
-const Container = styled.div`
-  padding-inline: calc((100% - 1200px) / 2);
+const Container = styled.li`
+  width: 280px;
+  height: 100%;
+  h4 {
+    font-size: ${((props) => props.theme.size.h6)};
+    color: ${((props) => props.theme.text.tertiary)};
+  }
+  h3 {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-block: 8px;
+    
+    text-overflow: ellipsis;
+    font-size:  ${((props) => props.theme.size.default)};
+    line-height: 1.1;
+    color: ${((props) => props.theme.text.secondary)};
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  strong {
+    font-size:  ${((props) => props.theme.size.h5)};
+    font-weight: 500;
+    color: ${((props) => props.theme.text.secondary)};
+  }
 `;
 
-const Wrapper = styled.div`
-  max-width: 1680px;
-  height: 600px;
-  padding-inline: calc((100% - 1200px) / 2);
-`;
-
-const Image = styled.div`
-  position: relative;
-  width: 250px;
-  height: 250px;
-
+const ImageWrapper = styled.div`
+  overflow: hidden;
+  margin-bottom: 14px;
+  border-radius: 0.6em;
   img {
     width: 100%;
     height: 100%;
-    border-radius: 8px;
-  }
-`;
-
-const Text = styled.div`
-  width: 250px;
-  height: 100px;
-  margin-top: 1em;
-
-  p {
-    margin-bottom: .7em;
-    word-break: keep-all;
-  }
-
-  p:first-child {
-    color: #999999;
-  }
-
-  p.name {
-    width: 250px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  strong {
-    font-size: 1.1em;
-    font-weight: bold;
   }
 `;

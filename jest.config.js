@@ -4,6 +4,7 @@ module.exports = {
     '@testing-library/jest-dom/extend-expect',
     './src/setupTestServer',
   ],
+
   transform: {
     '^.+\\.jsx?$': ['@swc/jest', {
       jsc: {
