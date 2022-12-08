@@ -1,9 +1,11 @@
 import {
   fireEvent,
-  render, screen, waitFor,
+  render, screen,
 } from '@testing-library/react';
+import { ThemeProvider } from 'styled-components';
 import { productStore } from '../stores/ProductStore';
 import { userStore } from '../stores/UserStore';
+import defaultTheme from '../styles/defaultTheme';
 import ProductDetail from './ProductDetail';
 
 const context = describe;
@@ -27,7 +29,9 @@ jest.mock('react-router-dom', () => ({
 describe('ProductDetail', () => {
   function renderProductDetail() {
     render(
-      <ProductDetail />,
+      <ThemeProvider theme={defaultTheme}>
+        <ProductDetail />
+      </ThemeProvider>,
     );
   }
 

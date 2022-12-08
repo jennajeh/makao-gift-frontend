@@ -53,6 +53,18 @@ export default class ApiService {
     };
   }
 
+  async postOrder({
+    productId, quantity, receiver, address, message,
+  }) {
+    const { data } = await this.instance.get('/orders', {
+      productId, quantity, receiver, address, message,
+    });
+
+    return {
+      id: data.id,
+    };
+  }
+
   async fetchUser() {
     const { data } = await this.instance.get('/users/me');
 
@@ -73,6 +85,20 @@ export default class ApiService {
 
   async fetchProduct(id) {
     const { data } = await this.instance.get(`/products/${id}`);
+
+    return data;
+  }
+
+  async fetchOrders() {
+    const { data } = await this.instance.get('/orders');
+
+    const { orders } = data;
+
+    return orders;
+  }
+
+  async fetchOrder(id) {
+    const { data } = await this.instance.get(`/orders/${id}`);
 
     return data;
   }

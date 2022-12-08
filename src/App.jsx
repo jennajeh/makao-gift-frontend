@@ -9,8 +9,8 @@ import useUserStore from './hooks/useUserStore';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import OrderDetailPage from './pages/OrderHistoryPage';
-import OrderListPage from './pages/OrderListPage';
+import OrderDetailPage from './pages/OrderDetailPage';
+import OrdersPage from './pages/OrdersPage';
 import OrderPage from './pages/OrderPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ProductsPage from './pages/ProductsPage';
@@ -46,7 +46,7 @@ export default function App() {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/order" element={<OrderPage />} />
-          <Route path="/orders" element={<OrderListPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
           <Route path="/orders/:id" element={<OrderDetailPage />} />
           <Route path="/welcome" element={<Welcome />} />
         </Routes>

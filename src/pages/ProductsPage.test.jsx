@@ -10,7 +10,6 @@ test('ProductsPage', async () => async (act) => {
       <ThemeProvider theme={defaultTheme}>
         <ProductsPage />
       </ThemeProvider>
-
     </MemoryRouter>
   ));
 

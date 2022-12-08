@@ -7,31 +7,6 @@ export default class ProductStore extends Store {
 
     this.products = [];
     this.product = {};
-
-    this.quantity = 1;
-  }
-
-  resetProductState() {
-    this.quantity = 1;
-    this.product = {};
-
-    this.publish();
-  }
-
-  quantityUp() {
-    this.quantity += 1;
-
-    this.publish();
-  }
-
-  quantityDown() {
-    if (this.quantity < 2) {
-      return;
-    }
-
-    this.quantity -= 1;
-
-    this.publish();
   }
 
   async fetchProducts() {

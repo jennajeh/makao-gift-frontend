@@ -9,7 +9,7 @@ const defaultTheme = {
     mouseOver: '#006148',
   },
   colors: {
-    background: '#f5f5f5',
+    background: '#fff',
     primary: '#22daab',
     secondary: '#fcbe2c',
     tertiary: '#f3a300',

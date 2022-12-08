@@ -9,8 +9,6 @@ export default function ProductDetailPage() {
   const { id } = useParams();
 
   useEffect(() => {
-    productStore.resetProductState();
-
     productStore.fetchProduct(id);
   }, []);
 
