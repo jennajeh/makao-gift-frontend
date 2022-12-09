@@ -7,10 +7,15 @@ export default class ProductStore extends Store {
 
     this.products = [];
     this.product = {};
+
+    this.totalPages = 0;
   }
 
-  async fetchProducts() {
-    this.products = await apiService.fetchProducts();
+  async fetchProducts({ page, size }) {
+    const { products, pages } = await apiService.fetchProducts({ page, size });
+
+    this.products = products;
+    this.totalPages = pages.totalPages;
 
     this.publish();
   }

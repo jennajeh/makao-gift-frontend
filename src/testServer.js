@@ -46,21 +46,6 @@ const server = setupServer(
     return res(ctx.status(400));
   }),
 
-  rest.get(`${baseUrl}/users`, async (req, res, ctx) => {
-    const countOnly = req.url.searchParams.get('countOnly');
-    const username = req.url.searchParams.get('username');
-
-    if (countOnly && username === 'existed') {
-      return res(ctx.json({
-        count: 1,
-      }));
-    }
-
-    return res(ctx.json({
-      count: 0,
-    }));
-  }),
-
   rest.get(`${baseUrl}/users/me`, async (req, res, ctx) => res(
     ctx.json({
       accessToken: 'ACCESS.TOKEN',
@@ -89,6 +74,10 @@ const server = setupServer(
           imageUrl: 'imageUrl',
         },
       ],
+
+      pages: {
+        totalPages: 1,
+      },
     }),
   )),
 
@@ -161,6 +150,9 @@ const server = setupServer(
           updatedAt: '2022-02-01T17:57:23.929359',
         },
       ],
+      pages: {
+        totalPages: 1,
+      },
     }),
   )),
 

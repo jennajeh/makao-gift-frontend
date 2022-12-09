@@ -51,10 +51,10 @@ export default class OrderStore extends Store {
   }
 
   async fetchOrders({ page, size }) {
-    const { metadata, orders } = await apiService.fetchOrders({ page, size });
+    const { orders, pages } = await apiService.fetchOrders({ page, size });
 
-    this.totalPages = metadata.totalPages;
     this.orders = orders;
+    this.totalPages = pages.totalPages;
 
     this.publish();
   }

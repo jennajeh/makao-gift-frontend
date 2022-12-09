@@ -5,29 +5,21 @@ import { orderStore } from '../stores/OrderStore';
 import defaultTheme from '../styles/defaultTheme';
 import OrderItem from './OrderItem';
 
-jest.mock('react-router-dom', () => ({
-  useParams: () => ({
-    id: '1',
-  }),
-}));
-
 test('OrderItem', async () => {
-  await orderStore.fetchOrders();
+  await orderStore.fetchOrders({ page: 1, size: 8 });
 
   render(
-    <MemoryRouter>
-      <ThemeProvider theme={defaultTheme}>
-        <OrderItem
-          order={orderStore.orders[0]}
-        />
-      </ThemeProvider>
-    </MemoryRouter>,
+    <ThemeProvider theme={defaultTheme}>
+      <MemoryRouter>
+        <OrderItem order={orderStore.orders[0]} />
+      </MemoryRouter>
+    </ThemeProvider>,
   );
 
   await waitFor(() => {
-    screen.getByRole('heading', { level: 4, name: '제조사1' });
-    screen.getByRole('heading', { level: 3, name: '상품1' });
+    screen.getByRole('heading', { level: 4, name: '테스트 1 메이커' });
+    screen.getByRole('heading', { level: 3, name: '테스트용 게시물 1' });
     screen.getByText(/To./);
-    screen.getByText(/전제나/);
+    screen.getByText(/강보니/);
   });
 });

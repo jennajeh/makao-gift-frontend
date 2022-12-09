@@ -1,11 +1,17 @@
+import { useLocation, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useOrderStore from '../hooks/useOrderStore';
 import OrderItem from './OrderItem';
+import Pagination from './Pagination';
 
 export default function OrderList() {
   const orderStore = useOrderStore();
 
   const { orders } = orderStore;
+
+  const location = useLocation();
+
+  const [searchParams] = useSearchParams();
 
   return (
     <Container>
@@ -20,6 +26,11 @@ export default function OrderList() {
               />
             ))}
           </Items>
+          <Pagination
+            url={location.pathname}
+            total={orderStore.totalPages}
+            current={searchParams.get('page') ?? 1}
+          />
         </>
       ) : (
         <Error>내가 주문한 내역이 없습니다</Error>

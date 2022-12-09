@@ -7,7 +7,7 @@ export default function SignupPage() {
 
   useEffect(() => () => {
     userStore.resetSignupStatus();
-  });
+  }, []);
   return (
     <SignupForm />
   );

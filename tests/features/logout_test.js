@@ -8,15 +8,15 @@ Before(({ I }) => {
 
 Scenario('로그아웃할 경우', ({ I }) => {
   // Given
-  I.login('Test1');
+  I.login('test1');
 
   // When
-  I.see('내 잔액: 50,000원');
+  I.see('내 잔액: 5,000,000원');
   I.click('로그아웃');
 
   // Then
   I.see('회원가입');
   I.see('로그인');
-  I.dontSee('내 잔액: 50,000원');
+  I.dontSee('내 잔액: 5,000,000원');
   I.dontSee('로그아웃');
 });

@@ -25,9 +25,10 @@ export default function ProductItem({ product }) {
   );
 }
 
-const Container = styled.li`
+const Container = styled.div`
   width: 280px;
   height: 100%;
+  padding-bottom: 20%;
   h4 {
     font-size: ${((props) => props.theme.size.h6)};
     color: ${((props) => props.theme.text.tertiary)};

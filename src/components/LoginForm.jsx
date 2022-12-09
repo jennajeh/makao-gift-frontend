@@ -25,12 +25,12 @@ export default function LoginForm({ location }) {
     if (userStore.loginSuccessful) {
       setAccessToken(accessToken);
 
-      if (location.state?.previousPage === 'productDetailPage') {
+      if (location.state?.previousPage === 'productDetail') {
         navigate(-1);
       }
-    }
 
-    navigate('/');
+      navigate('/');
+    }
   };
 
   return (
@@ -43,33 +43,26 @@ export default function LoginForm({ location }) {
             type="text"
             name="username"
             placeholder="아이디"
-            {...register('username', {
-              required: {
-                value: true,
-                message: '아이디를 입력해 주세요',
-              },
-            })}
+            error={(errors.username && errors.password)
+              || errors.username || userStore.loginFailed}
+            {...register('username', { required: true })}
           />
           <Input
             id="input-password"
             type="text"
             name="password"
             placeholder="비밀번호"
-            {...register('password', {
-              required: {
-                value: true,
-                message: '비밀번호를 입력해 주세요',
-              },
-            })}
+            error={(errors.username && errors.password)
+              || errors.password || userStore.loginFailed}
+            {...register('password', { required: true })}
           />
-          {userStore.errorStatus === 'loginError'
-          && !errors.username
-          && !errors.password
-            ? <Error>아이디 혹은 비밀번호가 맞지 않습니다</Error>
-            : null}
-          {errors.username && <Error>아이디를 입력해 주세요</Error>}
-          {!errors.username && errors.password && <Error>비밀번호를 입력해 주세요</Error>}
         </Inputs>
+        <Error>
+          {errors.username && errors.password && <p>아이디와 비밀번호를 입력해주세요</p>}
+          {errors.username && !errors.password && (<p>아이디를 입력해주세요</p>)}
+          {!errors.username && errors.password && (<p>비밀번호를 입력해주세요</p>)}
+          {userStore.loginFailed && (<p>아이디 혹은 비밀번호가 맞지 않습니다</p>)}
+        </Error>
         <Button type="submit">로그인하기</Button>
         <Link to="/signup">회원가입</Link>
       </form>
@@ -98,12 +91,18 @@ const Title = styled.h2`
 `;
 
 const Inputs = styled.div`
-  margin-block: 60px;
+  #input-username {
+    margin-top: 60px;
+  }
 `;
 
-const Error = styled.p`
-  font-size: .9em;
-  color: #ff0000;
-  margin: 1em 0;
-  height: 1em;
+const Error = styled.div`
+  height: 60px;
+  
+  p {
+    padding-top: 20px;
+    
+    font-size: 15px;
+    color: ${((props) => props.theme.text.red)};
+  }
 `;

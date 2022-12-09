@@ -4,7 +4,6 @@ import styled, { ThemeProvider } from 'styled-components';
 import { Reset } from 'styled-reset';
 import { useLocalStorage } from 'usehooks-ts';
 import Header from './components/Header';
-import Welcome from './components/Welcome';
 import useUserStore from './hooks/useUserStore';
 
 import HomePage from './pages/HomePage';
@@ -48,7 +47,6 @@ export default function App() {
           <Route path="/order" element={<OrderPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/orders/:id" element={<OrderDetailPage />} />
-          <Route path="/welcome" element={<Welcome />} />
         </Routes>
       </Main>
     </ThemeProvider>
@@ -56,5 +54,5 @@ export default function App() {
 }
 
 const Main = styled.main`
-  padding: 1em;
+  height: calc(100vh - 64px);
 `;

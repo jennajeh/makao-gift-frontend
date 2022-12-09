@@ -25,8 +25,8 @@ const Container = styled.article`
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding-inline: calc((100% - 700px) / 2);
-  padding-top: 12em;
+  padding: 15em;
+  min-width: 
 `;
 
 const Description = styled.article`
@@ -38,19 +38,19 @@ const Description = styled.article`
   strong {
     display: block;
     margin-block: 24px;
-    font-size: ${((props) => props.theme.size.h2)};
+    font-size: ${((props) => props.theme.size.h3)};
     color: ${((props) => props.theme.text.primary)};
   }
 `;
 
 const ImageWrapper = styled.div`
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 100%;
   background: url(${({ image }) => image}) no-repeat 50% 100%;
-  background-size: contain;
+  background-size: cover;
 `;

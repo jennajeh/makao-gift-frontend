@@ -11,11 +11,13 @@ const defaultTheme = {
   colors: {
     background: '#fff',
     primary: '#22daab',
-    secondary: '#fcbe2c',
-    tertiary: '#f3a300',
+    secondary: '#5DA547',
+    tertiary: '#5DA547',
     active: '#008C68',
     inactive: '#8d8d8d',
     border: '#d9d9d9',
+    red: '#ff424d',
+    yellow: '#fff5bd',
   },
   size: {
     h1: '2.5em', // 40px

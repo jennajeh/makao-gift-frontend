@@ -7,7 +7,7 @@ import OrderList from './OrderList';
 
 describe('OrderList', () => {
   beforeEach(() => {
-    orderStore.fetchOrders();
+    orderStore.fetchOrders({ page: 1, size: 8 });
   });
 
   it('주문한 내역을 조회할 수 있다', async () => {

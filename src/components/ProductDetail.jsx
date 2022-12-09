@@ -14,6 +14,7 @@ export default function ProductDetail() {
   const [accessToken] = useLocalStorage('accessToken', '');
 
   const navigate = useNavigate();
+
   const userStore = useUserStore();
   const productStore = useProductStore();
   const orderStore = useOrderStore();
@@ -42,7 +43,7 @@ export default function ProductDetail() {
 
   const handleClickOrder = () => {
     if (!accessToken) {
-      navigate('/login', { state: { previousPage: 'productDetailPage' } });
+      navigate('/login', { state: { previousPage: 'productDetail' } });
 
       return;
     }

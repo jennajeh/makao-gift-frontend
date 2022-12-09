@@ -59,7 +59,7 @@ describe('ProductDetail', () => {
 
         fireEvent.click(screen.getByText('선물하기'));
 
-        expect(navigate).toBeCalledWith('/login', { state: { previousPage: 'productDetailPage' } });
+        expect(navigate).toBeCalledWith('/login', { state: { previousPage: 'productDetail' } });
 
         expect(navigate).not.toBeCalledWith('/order');
       });

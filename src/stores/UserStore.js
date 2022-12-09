@@ -11,16 +11,11 @@ export default class UserStore extends Store {
 
     this.loginStatus = '';
     this.signupStatus = '';
-
-    this.errorMessage = '';
-    this.errorStatus = '';
   }
 
   async signup({
     name, username, password, passwordCheck,
   }) {
-    this.errorMessage = '';
-
     this.changeSignupStatus('processing');
     this.publish();
 
@@ -37,25 +32,17 @@ export default class UserStore extends Store {
       this.changeSignupStatus('failed');
       this.publish();
 
-      const message = e.response.data;
-
-      this.changeSignupErrorStatus({ errorMessage: message });
-      this.publish();
-
       return '';
     }
   }
 
   async login({ username, password }) {
-    this.errorMessage = '';
-
     this.changeLoginStatus('processing');
     this.publish();
 
     try {
       const { accessToken, name, amount } = await apiService.postSession({ username, password });
 
-      this.accessToken = accessToken;
       this.amount = amount;
       this.name = name;
 
@@ -65,11 +52,6 @@ export default class UserStore extends Store {
       return accessToken;
     } catch (e) {
       this.changeLoginStatus('failed');
-      this.publish();
-
-      const message = e.response.data;
-
-      this.changeLoginErrorStatus({ errorMessage: message });
       this.publish();
 
       return '';
@@ -105,20 +87,6 @@ export default class UserStore extends Store {
 
   changeSignupStatus(status) {
     this.signupStatus = status;
-
-    this.publish();
-  }
-
-  changeLoginErrorStatus({ errorMessage = '' } = {}) {
-    this.errorMessage = errorMessage;
-    this.errorStatus = 'loginError';
-
-    this.publish();
-  }
-
-  changeSignupErrorStatus({ errorMessage = '' } = {}) {
-    this.errorMessage = errorMessage;
-    this.errorStatus = 'signupError';
 
     this.publish();
   }

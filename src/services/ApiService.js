@@ -37,12 +37,6 @@ export default class ApiService {
     };
   }
 
-  async countUser(username) {
-    const { data } = await this.instance.get(`/users?countOnly=true&username=${username}`);
-
-    return data.count;
-  }
-
   async postSession({ username, password }) {
     const { data } = await this.instance.post('/session', { username, password });
 
@@ -77,11 +71,11 @@ export default class ApiService {
   async fetchProducts({ page = 1, size }) {
     const { data } = await this.instance.get(`/products?page=${page}&size=${size}`);
 
-    const { metadata, products } = data;
+    const { products, pages } = data;
 
     return {
-      metadata,
       products,
+      pages,
     };
   }
 
@@ -93,11 +87,12 @@ export default class ApiService {
 
   async fetchOrders({ page = 1, size }) {
     const { data } = await this.instance.get(`/orders?page=${page}&size=${size}`);
-    const { metadata, orders } = data;
+
+    const { orders, pages } = data;
 
     return {
-      metadata,
       orders,
+      pages,
     };
   }
 
