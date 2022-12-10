@@ -1,6 +1,13 @@
 Feature('상품 목록 확인 - 고객은 마음에 드는 상품을 고르기 위해 상품 목록을 볼 수 있다.');
 
+Before(({ I }) => {
+  I.setupDatabase();
+});
+
 Scenario('로그인 하지 않고 스토어 화면에 접속한 경우', ({ I }) => {
+  // Given
+  I.amOnPage('/');
+
   // When
   I.click('스토어');
 
@@ -14,13 +21,10 @@ Scenario('로그인 하지 않고 스토어 화면에 접속한 경우', ({ I })
 
 Scenario('로그인 후 스토어 화면에 접속한 경우', ({ I }) => {
   // Given
-  I.resetDatabase();
-  I.setUpUser();
-  I.setUpProducts();
+  I.login();
+  I.amOnPage('/');
 
   // When
-  I.login();
-
   I.click('스토어');
 
   // then

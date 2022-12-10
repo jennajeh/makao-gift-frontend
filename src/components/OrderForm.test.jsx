@@ -74,8 +74,8 @@ describe('OrderForm', () => {
       fireEvent.click(screen.getByRole('button', { name: '선물하기' }));
 
       await waitFor(() => {
-        screen.getByText('주소를 입력해 주세요.');
-        screen.getByText('성함을 입력해 주세요.');
+        screen.getByText('주소를 입력해 주세요');
+        screen.getByText('성함을 입력해 주세요');
       });
     });
   });

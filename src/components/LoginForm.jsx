@@ -58,9 +58,9 @@ export default function LoginForm({ location }) {
           />
         </Inputs>
         <Error>
-          {errors.username && errors.password && <p>아이디와 비밀번호를 입력해주세요</p>}
-          {errors.username && !errors.password && (<p>아이디를 입력해주세요</p>)}
-          {!errors.username && errors.password && (<p>비밀번호를 입력해주세요</p>)}
+          {errors.username && errors.password && <p>아이디와 비밀번호를 입력해 주세요</p>}
+          {errors.username && !errors.password && (<p>아이디를 입력해 주세요</p>)}
+          {!errors.username && errors.password && (<p>비밀번호를 입력해 주세요</p>)}
           {userStore.loginFailed && (<p>아이디 혹은 비밀번호가 맞지 않습니다</p>)}
         </Error>
         <Button type="submit">로그인하기</Button>

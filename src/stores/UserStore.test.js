@@ -12,7 +12,7 @@ describe('UserStore', () => {
   describe('login', () => {
     context('올바른 아이디와 비밀번호 입력시', () => {
       it('로그인 성공', async () => {
-        await userStore.login({ username: 'Test1', password: 'Test123!' });
+        await userStore.login({ username: 'test1', password: 'Test123!' });
 
         expect(userStore.amount).toBe(5_000_000);
       });
@@ -29,7 +29,7 @@ describe('UserStore', () => {
 
     context('비밀번호가 틀렸을 때', () => {
       it('로그인 실패', async () => {
-        await userStore.login({ username: 'Test1', password: 'xxx' });
+        await userStore.login({ username: 'test1', password: 'xxx' });
 
         expect(userStore.name).toBeFalsy();
         expect(userStore.amount).toBeFalsy();

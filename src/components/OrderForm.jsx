@@ -82,7 +82,7 @@ export default function OrderForm() {
               })}
             />
             {errors.receiver
-              ? (<ErrorMessage>성함을 입력해 주세요.</ErrorMessage>)
+              ? (<ErrorMessage>성함을 입력해 주세요</ErrorMessage>)
               : (<Message>3~7자까지 한글만 사용 가능</Message>)}
           </Inputs>
           <Inputs>
@@ -97,8 +97,8 @@ export default function OrderForm() {
               {...register('address', { required: true })}
             />
             {errors.address
-              ? (<ErrorMessage>주소를 입력해 주세요.</ErrorMessage>)
-              : (<Message>주소지를 입력해 주세요.</Message>)}
+              ? (<ErrorMessage>주소를 입력해 주세요</ErrorMessage>)
+              : (<Message>주소지를 입력해 주세요</Message>)}
           </Inputs>
           <Inputs>
             <label htmlFor="input-message">받는 분께 보내는 메세지</label>
@@ -108,7 +108,7 @@ export default function OrderForm() {
               name="message"
               {...register('message')}
             />
-            <Message>100글자 이내로 입력해 주세요.</Message>
+            <Message>100글자 이내로 입력해 주세요</Message>
           </Inputs>
           <ButtonWrapper>
             <Button type="submit">선물하기</Button>

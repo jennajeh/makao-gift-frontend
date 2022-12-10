@@ -12,7 +12,7 @@ const server = setupServer(
       username, password,
     } = await req.json();
 
-    if (username === 'Test1' && password === 'Test123!') {
+    if (username === 'test1' && password === 'Test123!') {
       return res(
         ctx.json({
           accessToken: 'ACCESS.TOKEN',

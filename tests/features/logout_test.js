@@ -1,17 +1,16 @@
 Feature('로그아웃');
 
 Before(({ I }) => {
-  I.setUpUser();
-
-  I.amOnPage('/');
+  I.setupDatabase();
 });
 
 Scenario('로그아웃할 경우', ({ I }) => {
   // Given
-  I.login('test1');
+  I.login();
 
   // When
-  I.see('내 잔액: 5,000,000원');
+  I.amOnPage('/');
+
   I.click('로그아웃');
 
   // Then

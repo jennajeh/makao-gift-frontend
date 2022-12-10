@@ -1,8 +1,11 @@
 Feature('주문 세부 정보 확인 - 고객은 자신이 선물한 상품과 메세지를 자세히 알기 위해 주문 세부 정보를 확인할 수 있다.');
 
+Before(({ I }) => {
+  I.setupDatabase();
+});
+
 Scenario('주문 세부 정보를 확인하는 경우', ({ I }) => {
   // Given
-  I.setUpProducts();
   I.makeOrder();
 
   // When

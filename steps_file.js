@@ -5,34 +5,29 @@ const backdoorBaseUrl = 'http://localhost:8000/backdoor';
 module.exports = () => actor({
   resetDatabase() {
     this.amOnPage(`${backdoorBaseUrl}/reset-database`);
-
-    this.amOnPage('/');
   },
 
-  resetProducts() {
-    this.amOnPage(`${backdoorBaseUrl}/reset-products`);
-
-    this.amOnPage('/');
+  setupDatabase() {
+    this.amOnPage(`${backdoorBaseUrl}/setup-database`);
   },
 
-  setUpProducts() {
-    this.amOnPage(`${backdoorBaseUrl}/setup-products`);
-
-    this.amOnPage('/');
+  changeAmount({ id, amount }) {
+    this.amOnPage([
+      `${backdoorBaseUrl}/change-amount`,
+      `?id=${id}&amount=${amount}`,
+    ].join(''));
   },
 
-  setUpUser() {
-    this.amOnPage(`${backdoorBaseUrl}/setup-user`);
-
-    this.amOnPage('/');
+  submit() {
+    this.click('[type=submit]');
   },
 
   signup() {
-    this.setUpUser();
+    this.resetDatabase();
     this.amOnPage('/signup');
 
     this.fillField('이름', '전제나');
-    this.fillField('아이디', 'test3');
+    this.fillField('아이디', 'test1');
     this.fillField('비밀번호', 'Test123!');
     this.fillField('비밀번호 확인', 'Test123!');
     this.submit();
@@ -43,24 +38,20 @@ module.exports = () => actor({
   login() {
     this.amOnPage('/login');
 
-    this.fillField('username', 'test1');
-    this.fillField('password', 'Test123!');
-    this.click('로그인하기');
+    this.fillField('아이디', 'test1');
+    this.fillField('비밀번호', 'Test123!');
+    this.submit();
 
     this.waitForText('로그아웃');
   },
 
-  submit() {
-    this.click('[type=submit]');
-  },
-
   makeOrder() {
-    this.setUpUser();
-    this.setUpProducts();
+    this.setupDatabase();
     this.amOnPage('/');
     this.login();
+
     this.click('스토어');
-    this.click('2,690,200원');
+    this.click('669,750원');
     this.click('선물하기');
 
     this.fillField('받는 분 성함', '강보니');
