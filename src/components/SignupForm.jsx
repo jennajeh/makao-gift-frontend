@@ -1,4 +1,6 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,14 +11,19 @@ import Input from './common/Input';
 export default function SignupForm() {
   const userStore = useUserStore();
 
-  const {
-    register, handleSubmit, formState: { errors }, getValues,
-  } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const [isPasswordNotMatch, setIsPasswordNotMatch] = useState(false);
 
   const onSubmit = async (data) => {
     const {
       name, username, password, passwordCheck,
     } = data;
+
+    if (password !== passwordCheck) {
+      setIsPasswordNotMatch(true);
+      return;
+    }
 
     await userStore.signup({
       name, username, password, passwordCheck,
@@ -30,6 +37,7 @@ export default function SignupForm() {
           <h2>회원가입 완료</h2>
           <p>
             마카오 선물하기 회원가입이 완료되었습니다.
+            <br />
             <br />
             정상적인 서비스 이용을 위해 로그인을 진행해주세요.
           </p>
@@ -54,14 +62,16 @@ export default function SignupForm() {
               id="input-name"
               type="text"
               name="name"
-              {...register('name', { required: true, pattern: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{3,7}$/ })}
+              error={(errors.name && errors.username && errors.password
+                && errors.passwordCheck) || errors.name}
+              {...register('name', {
+                required: true,
+                pattern: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{3,7}$/,
+              })}
             />
-            {errors.name && errors.name.type === 'required'
-            && (<Message>이름을 입력해 주세요.</Message>)}
-            {errors.name && errors.name.type === 'pattern'
-            && (<Message>이름을 다시 확인해 주세요.</Message>)}
-            {!errors.name
-            && (<Message>3~7까지 한글만 사용 가능</Message>)}
+            {errors.name
+              ? (<ErrorMessage>이름을 다시 확인해 주세요</ErrorMessage>)
+              : (<DefaultMessage>3~7자까지 한글만 사용 가능</DefaultMessage>)}
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="input-username">아이디:</Label>
@@ -69,17 +79,18 @@ export default function SignupForm() {
               id="input-username"
               type="text"
               name="username"
-              {...register('username', { required: true, pattern: /^[a-z0-9]{4,16}$/ })}
+              error={(errors.name && errors.username && errors.password
+                && errors.passwordCheck) || errors.username || userStore.signupFailed}
+              {...register('username', {
+                required: true,
+                pattern: /^[a-z|0-9]{4,16}$/,
+              })}
             />
-            {errors.username && errors.username.type === 'required'
-              && !userStore.errorStatus
-              && (<Message>아이디를 입력해 주세요.</Message>)}
-            {errors.username && errors.username.type === 'pattern'
-              && (<Message>아이디를 다시 확인해 주세요.</Message>)}
-            {!errors.username
-              && (<Message>영문소문자/숫자, 4~16자만 사용 가능</Message>)}
-            {userStore.errorStatus === 'signupError'
-            && (<Message>해당 아이디는 사용할 수 없습니다.</Message>)}
+            {errors.username
+              ? (<ErrorMessage>아이디를 다시 확인해 주세요</ErrorMessage>)
+              : userStore.signupFailed
+                ? (<ErrorMessage>해당 아이디는 사용할 수 없습니다</ErrorMessage>)
+                : (<DefaultMessage>영문소문자/숫자, 4~16자만 사용 가능</DefaultMessage>)}
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="input-password">비밀번호:</Label>
@@ -87,18 +98,16 @@ export default function SignupForm() {
               id="input-password"
               type="password"
               name="password"
+              error={(errors.name && errors.username && errors.password
+                && errors.passwordCheck) || errors.password}
               {...register('password', {
                 required: true,
-                pattern: /(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}/,
+                pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
               })}
             />
-            {errors.password && errors.password.type === 'required'
-              && !userStore.errorStatus
-              && (<Message>비밀번호를 입력해 주세요.</Message>)}
-            {errors.password && errors.password.type === 'pattern'
-              && (<Message>비밀번호를 다시 확인해 주세요.</Message>)}
-            {!errors.password
-              && (<Message>8글자 이상의 영문(대소문자), 숫자, 특수문자가 모두 포함되어야 합니다.</Message>)}
+            {errors.password
+              ? (<ErrorMessage>비밀번호를 다시 확인해 주세요</ErrorMessage>)
+              : (<DefaultMessage>8글자 이상의 영문(대소문자), 숫자, 특수문자가 모두 포함되어야 함</DefaultMessage>)}
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="input-passwordCheck">비밀번호 확인:</Label>
@@ -106,17 +115,15 @@ export default function SignupForm() {
               id="input-passwordCheck"
               type="password"
               name="passwordCheck"
-              {...register('passwordCheck', {
-                required: true,
-                validate: (value) => value === getValues('password'),
-              })}
+              error={(errors.name && errors.username && errors.password
+                && errors.passwordCheck) || errors.passwordCheck}
+              {...register('passwordCheck', { required: true })}
             />
-            {errors.passwordCheck && errors.passwordCheck.type === 'required'
-              && !userStore.errorStatus
-              && (<Message>비밀번호를 입력해 주세요.</Message>)}
-            {errors.passwordCheck && errors.passwordCheck.type === 'pattern'
-              && (<Message>비밀번호가 일치하지 않습니다.</Message>)}
           </InputWrapper>
+          {errors.passwordCheck
+          && (<ErrorMessage>비밀번호를 다시 확인해 주세요</ErrorMessage>)}
+          {isPasswordNotMatch
+          && <ErrorMessage>비밀번호가 일치하지 않습니다</ErrorMessage>}
         </Inputs>
         <Button type="submit">회원가입</Button>
       </form>
@@ -140,6 +147,7 @@ const Title = styled.h2`
 `;
 
 const Inputs = styled.div`
+  min-width: 390px;
   margin-block: 60px;
   color: ${((props) => props.theme.text.gray)};
 `;
@@ -153,11 +161,19 @@ const InputWrapper = styled.div`
 const Label = styled.label`
   display: block;
   margin-bottom: 8px;
+  font-size: 15px;
   font-weight: 700;
 `;
 
-const Message = styled.p`
+const ErrorMessage = styled.p`
   margin-top: 8px;
+  font-size: 15px;
+  color: ${((props) => props.theme.text.red)};
+`;
+
+const DefaultMessage = styled.p`
+  margin-top: 8px;
+  font-size: 15px;
 `;
 
 const SignupCompleted = styled(Container)`
@@ -172,11 +188,4 @@ const SignupCompleted = styled(Container)`
     font-size: ${((props) => props.theme.size.h5)};
     text-align: center;
   }
-`;
-
-const Error = styled.p`
-  font-size: .9em;
-  color: #ff0000;
-  margin: 1em 0;
-  height: 1em;
 `;

@@ -37,12 +37,6 @@ export default class ApiService {
     };
   }
 
-  async countUser(username) {
-    const { data } = await this.instance.get(`/users?countOnly=true&username=${username}`);
-
-    return data.count;
-  }
-
   async postSession({ username, password }) {
     const { data } = await this.instance.post('/session', { username, password });
 
@@ -50,6 +44,17 @@ export default class ApiService {
       accessToken: data.accessToken,
       name: data.name,
       amount: data.amount,
+    };
+  }
+
+  async postOrder({
+    productId, quantity, receiver, address, message,
+  }) {
+    const { data } = await this.instance.post('/orders', {
+      productId, quantity, receiver, address, message,
+    });
+    return {
+      id: data.id,
     };
   }
 
@@ -63,16 +68,36 @@ export default class ApiService {
     };
   }
 
-  async fetchProducts() {
-    const { data } = await this.instance.get('/products');
+  async fetchProducts({ page = 1, size }) {
+    const { data } = await this.instance.get(`/products?page=${page}&size=${size}`);
 
-    const { products } = data;
+    const { products, pages } = data;
 
-    return products;
+    return {
+      products,
+      pages,
+    };
   }
 
   async fetchProduct(id) {
     const { data } = await this.instance.get(`/products/${id}`);
+
+    return data;
+  }
+
+  async fetchOrders({ page = 1, size }) {
+    const { data } = await this.instance.get(`/orders?page=${page}&size=${size}`);
+
+    const { orders, pages } = data;
+
+    return {
+      orders,
+      pages,
+    };
+  }
+
+  async fetchOrder(id) {
+    const { data } = await this.instance.get(`/orders/${id}`);
 
     return data;
   }

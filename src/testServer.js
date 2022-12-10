@@ -12,19 +12,17 @@ const server = setupServer(
       username, password,
     } = await req.json();
 
-    if (username === 'Test1' && password === 'Test123!') {
+    if (username === 'test1' && password === 'Test123!') {
       return res(
         ctx.json({
           accessToken: 'ACCESS.TOKEN',
           name: '전제나',
-          amount: 50_000,
+          amount: 5_000_000,
         }),
       );
     }
 
-    return res(
-      ctx.status(400),
-    );
+    return res(ctx.status(400));
   }),
 
   rest.post(`${baseUrl}/users`, async (req, res, ctx) => {
@@ -33,43 +31,26 @@ const server = setupServer(
     } = await req.json();
 
     if (name === '전제나'
-    && username === 'Test1'
+    && username === 'test1'
     && password === 'Test123!'
     && passwordCheck === 'Test123!') {
       return res(
         ctx.json({
           id: 1,
           name: '전제나',
-          username: 'Test1',
+          username: 'test1',
         }),
       );
     }
 
-    return res(
-      ctx.status(400),
-    );
-  }),
-
-  rest.get(`${baseUrl}/users`, async (req, res, ctx) => {
-    const countOnly = req.url.searchParams.get('countOnly');
-    const username = req.url.searchParams.get('username');
-
-    if (countOnly && username === 'existed') {
-      return res(ctx.json({
-        count: 1,
-      }));
-    }
-
-    return res(ctx.json({
-      count: 0,
-    }));
+    return res(ctx.status(400));
   }),
 
   rest.get(`${baseUrl}/users/me`, async (req, res, ctx) => res(
     ctx.json({
       accessToken: 'ACCESS.TOKEN',
       name: '전제나',
-      amount: 50_000,
+      amount: 5_000_000,
     }),
   )),
 
@@ -93,6 +74,10 @@ const server = setupServer(
           imageUrl: 'imageUrl',
         },
       ],
+
+      pages: {
+        totalPages: 1,
+      },
     }),
   )),
 
@@ -104,6 +89,91 @@ const server = setupServer(
       maker: '테스트 1 메이커',
       description: '테스트용 게시물 1 입니다.',
       imageUrl: 'imageUrl',
+    }),
+  )),
+
+  rest.post(`${baseUrl}/orders`, async (req, res, ctx) => {
+    const {
+      productId, quantity, receiver, address, message,
+    } = await req.json();
+
+    if (productId && quantity > 0 && receiver && address) {
+      return res(
+        ctx.json({
+          id: 1,
+          productId: 1,
+          quantity: 1,
+        }),
+      );
+    }
+
+    return res(ctx.status(400));
+  }),
+
+  rest.get(`${baseUrl}/orders`, async (req, res, ctx) => res(
+    ctx.json({
+      orders: [
+        {
+          id: 1,
+          quantity: 1,
+          totalPrice: 10_000,
+          receiver: '강보니',
+          address: '서울시 성동구 성수동',
+          message: '생일 축하해!',
+          product: {
+            id: 1,
+            name: '테스트용 게시물 1',
+            price: 10_000,
+            maker: '테스트 1 메이커',
+            description: '테스트용 게시물 1 입니다.',
+            imageUrl: 'imageUrl',
+          },
+          createdAt: '2022-01-01T17:57:23.929359',
+          updatedAt: '2022-02-01T17:57:23.929359',
+        },
+        {
+          id: 2,
+          quantity: 1,
+          totalPrice: 10_000,
+          receiver: '최재니',
+          address: '서울시 성동구 성수동',
+          message: '생일 축하해!',
+          product: {
+            id: 1,
+            name: '테스트용 게시물 1',
+            price: 10_000,
+            maker: '테스트 1 메이커',
+            description: '테스트용 게시물 1 입니다.',
+            imageUrl: 'imageUrl',
+          },
+          createdAt: '2022-01-01T17:57:23.929359',
+          updatedAt: '2022-02-01T17:57:23.929359',
+        },
+      ],
+      pages: {
+        totalPages: 1,
+      },
+    }),
+  )),
+
+  rest.get(`${baseUrl}/orders/1`, async (req, res, ctx) => res(
+    ctx.json({
+      id: 1,
+      quantity: 1,
+      totalPrice: 10_000,
+      receiver: '강보니',
+      address: '서울시 성동구 성수동',
+      message: '생일 축하해!',
+      product: {
+        id: 1,
+        name: '테스트용 게시물 1',
+        price: 10_000,
+        maker: '테스트 1 메이커',
+        description: '테스트용 게시물 1 입니다.',
+        imageUrl: 'imageUrl',
+      },
+      createdAt: '2022-01-01T17:57:23.929359',
+      updatedAt: '2022-02-01T17:57:23.929359',
     }),
   )),
 );

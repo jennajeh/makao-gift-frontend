@@ -7,14 +7,12 @@ import ProductItem from './ProductItem';
 
 describe('ProductItem', () => {
   it('상품을 반환한다', async () => {
-    await productStore.fetchProducts();
+    await productStore.fetchProducts({ page: 1, size: 8 });
 
     render(
       <MemoryRouter>
         <ThemeProvider theme={defaultTheme}>
-          <ProductItem
-            product={productStore.products[0]}
-          />
+          <ProductItem product={productStore.products[0]} />
         </ThemeProvider>
       </MemoryRouter>,
     );

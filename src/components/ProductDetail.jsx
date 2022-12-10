@@ -1,42 +1,60 @@
 /* eslint-disable react/prop-types */
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import { useState } from 'react';
 import useProductStore from '../hooks/useProductStore';
 import useUserStore from '../hooks/useUserStore';
+import useOrderStore from '../hooks/useOrderStore';
 import numberFormat from '../utils/numberFormat';
 import { icons } from '../assets';
+import Button from './common/Button';
 
 export default function ProductDetail() {
-  const navigate = useNavigate();
-
   const [accessToken] = useLocalStorage('accessToken', '');
 
-  const userStore = useUserStore();
+  const navigate = useNavigate();
 
+  const userStore = useUserStore();
   const productStore = useProductStore();
+  const orderStore = useOrderStore();
 
   const { product } = productStore;
-
   const {
     name, price, maker, description, imageUrl,
   } = product;
 
+  const [isClicked, setIsClicked] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   const totalPrice = price * quantity;
 
+  const handleClickMinus = () => {
+    if (quantity < 2) {
+      return;
+    }
+
+    setQuantity(quantity - 1);
+  };
+
+  const handleClickPlus = () => {
+    setQuantity(quantity + 1);
+  };
+
   const handleClickOrder = () => {
     if (!accessToken) {
-      navigate('/login', { state: { previousPage: 'productDetailPage' } });
+      navigate('/login', { state: { previousPage: 'productDetail' } });
 
       return;
     }
 
-    if (userStore.hasEnoughAmount(totalPrice)) {
-      navigate('/order');
+    if (!userStore.hasEnoughAmount(totalPrice)) {
+      setIsClicked(true);
+      return;
     }
+
+    orderStore.setQuantityAndTotalPrice({ quantity, totalPrice });
+    navigate('/order');
   };
 
   if (!product) {
@@ -63,11 +81,11 @@ export default function ProductDetail() {
         <Table>
           <Label>구매수량</Label>
           <Quantity>
-            {productStore.quantity === 1 ? (
+            {quantity === 1 ? (
               <DisabledMinus
                 type="button"
                 name="minus-gray"
-                disabled={productStore.quantity === 1}
+                disabled={quantity === 1}
               >
                 -
                 <img src={icons.minusGray} alt="minus-gray" />
@@ -76,17 +94,17 @@ export default function ProductDetail() {
               <EnabledMinus
                 type="button"
                 name="minus-black"
-                onClick={() => productStore.quantityDown()}
+                onClick={handleClickMinus}
               >
                 -
                 <img src={icons.minusBlack} alt="minus-black" />
               </EnabledMinus>
             )}
-            <p>{productStore.quantity}</p>
+            <p>{quantity}</p>
             <Plus
               type="button"
               name="plus-black"
-              onClick={() => productStore.quantityUp()}
+              onClick={handleClickPlus}
             >
               +
               <img src={icons.plusBlack} alt="plus-black" />
@@ -107,15 +125,15 @@ export default function ProductDetail() {
         <Button type="button" onClick={handleClickOrder}>
           선물하기
         </Button>
-        {accessToken && !userStore.hasEnoughAmount(totalPrice)
+        {isClicked && !userStore.hasEnoughAmount(totalPrice)
         && (
-          <Error>
+          <Warning>
             ❌
             {' '}
             잔액이 부족하여 선물하기가 불가합니다
             {' '}
             ❌
-          </Error>
+          </Warning>
         )}
       </ContentBox>
     </Container>
@@ -123,19 +141,19 @@ export default function ProductDetail() {
 }
 
 const Container = styled.div`
-  width: 100%;
-  padding-top: 10em;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
+  padding-inline: 10em;
+  padding-top: 80px;
+  color: ${((props) => props.theme.text.secondary)};
 `;
 
 const ImageBox = styled.div`
   position: relative;
   width: 450px;
   height: 450px;
-  margin-right: 5em;
   img {
-    position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -161,14 +179,16 @@ const LastRow = styled.div`
   border-bottom: 1px solid #D9D9D9;
 `;
 
-const ProductName = styled.h2`
-  font-size: 1.5em;
+const ProductName = styled.h3`
+  margin-bottom: 24px;
+  font-size: ${((props) => props.theme.size.h3)};
+  font-weight: 500;
 `;
 
 const Price = styled.p`
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-block: 1em; 
+  margin-bottom: 40px;
+  font-size: ${((props) => props.theme.size.h1)};
+  font-weight: 700;
 `;
 
 const Label = styled.p`
@@ -261,17 +281,8 @@ const TotalPrice = styled.p`
   font-weight: bold;
 `;
 
-const Button = styled.button`
-  border: none;
-  border-radius: 4px;
-  width: 100%;
-  padding: 1.2em 2.8em;
-  margin-top: 1em;
-`;
-
-const Error = styled.p`
-  font-weight: bold;
-  color: #ff0000;
+const Warning = styled.p`
+  margin-top: 20px;
+  color: ${((props) => props.theme.text.red)};
   text-align: center;
-  margin-top: 2em;
 `;

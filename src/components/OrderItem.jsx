@@ -1,34 +1,38 @@
 /* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import numberFormat from '../utils/numberFormat';
 
-export default function ProductItem({ product }) {
+import styled from 'styled-components';
+
+export default function OrderItem({ order }) {
   const {
-    id, name, imageUrl, maker, price,
-  } = product;
+    id, product, receiver,
+  } = order;
+
+  if (!product) {
+    return <p>Loading...</p>;
+  }
 
   return (
-    <Link to={`/products/${id}`}>
+    <Link to={`/orders/${id}`}>
       <Container>
         <ImageWrapper>
-          <img src={imageUrl} alt={name} />
+          <img src={product.imageUrl} alt={product.name} />
         </ImageWrapper>
-        <h4>{maker}</h4>
-        <h3>{name}</h3>
+        <h4>{product.maker}</h4>
+        <h3>{product.name}</h3>
         <strong>
-          {numberFormat(price)}
-          원
+          To.
+          {' '}
+          {receiver}
         </strong>
       </Container>
     </Link>
   );
 }
 
-const Container = styled.div`
+const Container = styled.li`
   width: 280px;
   height: 100%;
-  padding-bottom: 20%;
   h4 {
     font-size: ${((props) => props.theme.size.h6)};
     color: ${((props) => props.theme.text.tertiary)};
@@ -46,8 +50,8 @@ const Container = styled.div`
     -webkit-box-orient: vertical;
   }
   strong {
-    font-size:  ${((props) => props.theme.size.h5)};
-    font-weight: 500;
+    font-size:  ${((props) => props.theme.size.default)};
+    font-weight: 700;
     color: ${((props) => props.theme.text.secondary)};
   }
 `;
