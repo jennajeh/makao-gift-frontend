@@ -19,7 +19,7 @@
 ## 👩🏻‍💻 프로그램 실행하는 법
 ```
 1️⃣ 레포지토리 클론
-git clone https://github.com/bohyunkang/makao-gift-frontend.git
+git clone https://github.com/jennajuneh/makao-gift-frontend.git
 
 2️⃣ 디렉터리 이동
 cd makao-gift-frontedn
