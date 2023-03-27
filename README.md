@@ -38,8 +38,8 @@ npm run codeceptjs:headless // 터미널에서 확인 가능
 npm run codeceptjs:ui // UI 화면으로 확인 가능
 ```
 ## 🛠 기술 스택
-- Java
-- Spring Boot
-- Gradle
-- JUnit5
+- Javascript
+- React
+- Jest
+- MSW
 ### 🏆 [BackEnd Repo](https://github.com/jennajeh/makao-gift-backend)
